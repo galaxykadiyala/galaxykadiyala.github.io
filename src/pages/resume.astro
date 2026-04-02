@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Resume" description="Resume of Galaxy Kadiyala — community, open source, tech.">
+  <section class="section">
+    <div class="container">
+
+      <div class="resume-header">
+        <div>
+          <h1>Galaxy Kadiyala</h1>
+          <p class="resume-tagline">Mozilla Reps Mentor · Open Source · Bangalore, India</p>
+        </div>
+        <div class="resume-header-actions">
+          <a href="/resume.pdf" download class="btn">Download PDF</a>
+          <a href="/contact" class="btn outline">Contact →</a>
+        </div>
+      </div>
+
+      <div class="resume-body">
+
+        <!-- Summary -->
+        <div class="resume-section">
+          <div class="resume-section-label">Summary</div>
+          <div class="resume-section-content">
+            <p>
+              Community builder and open source contributor with 14+ years in the Mozilla ecosystem.
+              Experienced in organizing tech events, mentoring new contributors, and evangelizing
+              open web technologies across India. Passionate about digital literacy, open standards,
+              and building welcoming communities.
+            </p>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="resume-section">
+          <div class="resume-section-label">Experience</div>
+          <div class="resume-section-content">
+
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div>
+                  <h3 class="resume-item-title">Mozilla Reps Mentor</h3>
+                  <span class="resume-item-org">Mozilla Foundation</span>
+                </div>
+                <div class="resume-item-meta">
+                  <span class="tag yellow">2015 – Present</span>
+                </div>
+              </div>
+              <ul class="resume-item-bullets">
+                <li>Mentoring Mozilla Representatives across India on community building and event organizing</li>
+                <li>Onboarding new contributors to the Mozilla ecosystem and open source workflows</li>
+                <li>Coordinating with global Mozilla community on regional initiatives</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div>
+                  <h3 class="resume-item-title">Mozilla Representative</h3>
+                  <span class="resume-item-org">Mozilla Foundation</span>
+                </div>
+                <div class="resume-item-meta">
+                  <span class="tag green">2011 – 2015</span>
+                </div>
+              </div>
+              <ul class="resume-item-bullets">
+                <li>Organized Firefox launch parties, install fests, and open web events across Bangalore</li>
+                <li>Ran Webmaker workshops introducing people to web literacy and making</li>
+                <li>Represented Mozilla at MozFest 2013, London</li>
+                <li>Grew the Bangalore Mozilla community from a small group to hundreds of contributors</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <div class="resume-item-header">
+                <div>
+                  <h3 class="resume-item-title">Firefox Student Ambassador</h3>
+                  <span class="resume-item-org">Mozilla Foundation</span>
+                </div>
+                <div class="resume-item-meta">
+                  <span class="tag blue">2010 – 2012</span>
+                </div>
+              </div>
+              <ul class="resume-item-bullets">
+                <li>Campus outreach for Firefox and open web technologies</li>
+                <li>Organized install fests and coding workshops</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="resume-section">
+          <div class="resume-section-label">Skills</div>
+          <div class="resume-section-content">
+            <div class="skills-grid">
+              {[
+                { group: 'Community', skills: ['Event organizing', 'Mentoring', 'Public speaking', 'Community management'] },
+                { group: 'Open Source', skills: ['GitHub', 'Open web standards', 'Documentation', 'Localization'] },
+                { group: 'Tech', skills: ['HTML/CSS', 'Jekyll', 'Astro', 'Git', 'Linux'] },
+                { group: 'Tools', skills: ['Firefox DevTools', 'MDN', 'Bugzilla', 'Discourse'] },
+              ].map(group => (
+                <div class="skill-group">
+                  <h4 class="skill-group-title">{group.group}</h4>
+                  <ul class="skill-list">
+                    {group.skills.map(s => <li>{s}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Community -->
+        <div class="resume-section">
+          <div class="resume-section-label">Community</div>
+          <div class="resume-section-content">
+            <div class="community-list">
+              {[
+                { name: 'MozFest 2013', location: 'London, UK', tag: 'Conference' },
+                { name: 'FSA Bootcamp India', location: 'India', tag: 'Bootcamp' },
+                { name: 'Mozilla India Community Meetup \'14', location: 'Bangalore', tag: 'Meetup' },
+                { name: 'Firefox OS App Day Bangalore', location: 'Bangalore', tag: 'Hackathon' },
+                { name: 'Maker Party FSMK Summer Camp', location: 'Bangalore', tag: 'Workshop' },
+              ].map(item => (
+                <div class="community-item">
+                  <div>
+                    <strong>{item.name}</strong>
+                    <span class="community-location">{item.location}</span>
+                  </div>
+                  <span class="tag blue">{item.tag}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.resume-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--ink);
+}
+.resume-header h1 { margin-bottom: 0.4rem; }
+.resume-tagline {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
+.resume-header-actions { display: flex; gap: 0.75rem; flex-shrink: 0; }
+
+.resume-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.resume-section {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 3rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.resume-section-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  padding-top: 0.25rem;
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+
+.resume-section-content p {
+  font-size: 1.05rem;
+  opacity: 0.75;
+  max-width: 65ch;
+}
+
+.resume-item {
+  margin-bottom: 2.5rem;
+}
+.resume-item:last-child { margin-bottom: 0; }
+
+.resume-item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.resume-item-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+
+.resume-item-org {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  opacity: 0.45;
+}
+
+.resume-item-bullets {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.resume-item-bullets li {
+  font-family: var(--serif);
+  font-size: 1rem;
+  opacity: 0.7;
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.6;
+}
+.resume-item-bullets li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.skill-group-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  opacity: 0.5;
+}
+
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.skill-list li {
+  font-family: var(--serif);
+  font-size: 1rem;
+  opacity: 0.75;
+}
+
+.community-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.community-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.community-item strong {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.community-location {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  opacity: 0.4;
+}
+
+@media (max-width: 768px) {
+  .resume-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .resume-header { flex-direction: column; align-items: flex-start; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .resume-item-header { flex-direction: column; }
+}
+</style>

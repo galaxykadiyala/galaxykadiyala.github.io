@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="About Galaxy Kadiyala — Mozilla community member, open source evangelist, Bangalore.">
+  <section class="section">
+    <div class="container">
+
+      <div class="about-grid">
+
+        <!-- Left: big statement -->
+        <div class="about-left">
+          <h1 class="about-title">
+            I care about<br/>
+            the <em>open web</em>.<br/>
+            A lot.
+          </h1>
+          <div class="about-accent-block">
+            <span class="tag red">Mozilla Reps Mentor</span>
+            <span class="tag blue">Webmaker</span>
+            <span class="tag green">Bangalore</span>
+          </div>
+        </div>
+
+        <!-- Right: bio -->
+        <div class="about-right">
+          <div class="about-bio">
+            <p>
+              Hey — I'm Galaxy Kadiyala. I've been part of the Mozilla community since 2010,
+              when I stumbled into a Firefox launch party in Bangalore and never really left.
+            </p>
+            <p>
+              Over the years I've worn a few hats: Firefox evangelist, event organizer,
+              Webmaker, and eventually a Mozilla Reps Mentor — helping new contributors
+              find their footing in open source.
+            </p>
+            <p>
+              I believe the internet is a public good. That means fighting for it to stay
+              open, accessible, and decentralized. Mozilla's mission is the clearest
+              articulation of that belief I've found.
+            </p>
+            <p>
+              When I'm not thinking about the web, I'm probably eating great food
+              somewhere in Bangalore or down a Wikipedia rabbit hole.
+            </p>
+          </div>
+
+          <div class="about-links">
+            <a href="https://github.com/galaxykadiyala" target="_blank" rel="noopener" class="btn">GitHub →</a>
+            <a href="/contact" class="btn outline">Get in touch →</a>
+            <a href="/resume" class="btn outline">Resume →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-section">
+        <h2 class="timeline-heading">Timeline</h2>
+        <div class="timeline">
+          {[
+            { year: '2010', label: 'Joined Mozilla community', color: 'var(--accent-3)' },
+            { year: '2011', label: 'First Mozilla Demo Party, India', color: 'var(--accent-4)' },
+            { year: '2012', label: 'Became a Student Rep — Firefox Install Fest Bangalore', color: 'var(--accent-1)' },
+            { year: '2013', label: 'Attended MozFest in London', color: 'var(--accent-2)' },
+            { year: '2014', label: 'Mozilla India Community Meetup & Webmaker events', color: 'var(--accent-5)' },
+            { year: '2015', label: 'FSA Bootcamp India — became Mozilla Reps Mentor', color: 'var(--accent-3)' },
+            { year: 'Now', label: 'Reviving the blog. Writing again. Still here.', color: 'var(--accent-1)' },
+          ].map(item => (
+            <div class="timeline-item">
+              <div class="timeline-dot" style={`background: ${item.color}`}></div>
+              <div class="timeline-year">{item.year}</div>
+              <div class="timeline-label">{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+  padding-bottom: 5rem;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 5rem;
+}
+
+.about-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+.about-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent-1);
+}
+
+.about-accent-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.about-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.about-bio p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Timeline */
+.timeline-heading {
+  margin-bottom: 2.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding-left: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: var(--ink);
+  opacity: 0.12;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  position: relative;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+  outline: 2px solid var(--ink);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.timeline-year {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.85rem;
+  opacity: 0.45;
+}
+
+.timeline-label {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+</style>

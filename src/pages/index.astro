@@ -1,0 +1,396 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+).slice(0, 4);
+
+const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
+---
+
+<BaseLayout title="Home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span class="tag green">Mozilla Reps Mentor</span>
+          <span class="tag blue">Open Source</span>
+          <span class="tag orange">Bangalore</span>
+        </div>
+        <h1 class="hero-title">
+          Hey, I'm<br/>
+          <em>Galaxy</em><br/>
+          Kadiyala
+        </h1>
+        <p class="hero-desc">
+          Mozilla community member, open source evangelist, and occasional blogger.
+          Writing about tech, community, and whatever else grabs my attention.
+        </p>
+        <div class="hero-actions">
+          <a href="/blog" class="btn">Read the Blog</a>
+          <a href="/about" class="btn outline">About Me →</a>
+        </div>
+      </div>
+
+      <div class="hero-graphic">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="hero-card">
+          <span class="hero-card-label">Latest from the blog</span>
+          {posts[0] && (
+            <a href={`/blog/${posts[0].slug}`} class="hero-card-post">
+              <span class="hero-card-date">{posts[0].data.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              <strong>{posts[0].data.title}</strong>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="ticker">
+      <div class="ticker-inner">
+        {['Mozilla', 'Open Source', 'Webmaker', 'Firefox', 'Community', 'Bangalore', 'Blog', 'Mozilla Reps'].map(t => (
+          <span>{t} <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span>
+        ))}
+        {['Mozilla', 'Open Source', 'Webmaker', 'Firefox', 'Community', 'Bangalore', 'Blog', 'Mozilla Reps'].map(t => (
+          <span>{t} <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT POSTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Recent Posts</h2>
+        <a href="/blog" class="btn outline">All posts →</a>
+      </div>
+      <div class="posts-grid">
+        {posts.map((post, i) => (
+          <a href={`/blog/${post.slug}`} class="post-card">
+            <div class="post-card-accent" style={`--color: var(--accent-${(i % 5) + 1})`}></div>
+            <div class="post-card-body">
+              <span class={`tag ${tagColors[i % tagColors.length]}`}>{post.data.category || 'Blog'}</span>
+              <h3 class="post-card-title">{post.data.title}</h3>
+              <p class="post-card-excerpt">{post.data.description}</p>
+              <time class="post-card-date">{post.data.date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div class="container about-strip-inner">
+      <div class="about-strip-text">
+        <h2>Mozilla Community<br/>since <em>2010</em></h2>
+        <p>Started as a Firefox evangelist, became a Mozilla Reps Mentor, and never stopped caring about the open web.</p>
+        <a href="/about" class="btn">Learn more →</a>
+      </div>
+      <div class="about-strip-stats">
+        <div class="stat">
+          <span class="stat-num">14+</span>
+          <span class="stat-label">Years in Mozilla</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">30+</span>
+          <span class="stat-label">Blog Posts</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Community ❤️</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+/* HERO */
+.hero {
+  overflow: hidden;
+  border-bottom: 2px solid var(--ink);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding-top: clamp(3rem, 8vw, 6rem);
+  padding-bottom: clamp(2rem, 6vw, 4rem);
+}
+
+.hero-eyebrow {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+}
+.hero-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent-1);
+}
+
+.hero-desc {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  max-width: 42ch;
+  opacity: 0.75;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Graphic */
+.hero-graphic {
+  position: relative;
+  height: 380px;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.35;
+  animation: float 6s ease-in-out infinite;
+}
+.blob-1 { width: 260px; height: 260px; background: var(--accent-1); top: 0; right: 0; }
+.blob-2 { width: 200px; height: 200px; background: var(--accent-4); bottom: 30px; left: 10px; animation-delay: -2s; }
+.blob-3 { width: 150px; height: 150px; background: var(--accent-2); top: 50%; left: 50%; animation-delay: -4s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+.hero-card {
+  position: absolute;
+  bottom: 2rem;
+  right: 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  width: 280px;
+  z-index: 2;
+  box-shadow: 8px 8px 0 var(--accent-2);
+}
+
+.hero-card-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.hero-card-post {
+  display: block;
+  color: inherit;
+}
+.hero-card-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.hero-card-post strong {
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+/* Ticker */
+.ticker {
+  background: var(--accent-2);
+  border-top: 2px solid var(--ink);
+  overflow: hidden;
+  padding: 0.6rem 0;
+}
+
+.ticker-inner {
+  display: flex;
+  gap: 2rem;
+  white-space: nowrap;
+  animation: ticker 20s linear infinite;
+}
+
+.ticker-inner span {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Posts grid */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  gap: 1rem;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.post-card {
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: var(--paper);
+}
+.post-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.post-card-accent {
+  height: 6px;
+  background: var(--color, var(--accent-1));
+}
+
+.post-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.post-card-title {
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.post-card-excerpt {
+  font-size: 0.92rem;
+  opacity: 0.65;
+  line-height: 1.6;
+  font-family: var(--serif);
+}
+
+.post-card-date {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  opacity: 0.4;
+  margin-top: auto;
+}
+
+/* About strip */
+.about-strip {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  border-top: 2px solid var(--ink);
+}
+
+.about-strip-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-strip-text h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin-bottom: 1rem;
+  line-height: 1.05;
+}
+.about-strip-text h2 em {
+  font-family: var(--serif);
+  color: var(--accent-2);
+  font-style: italic;
+}
+.about-strip-text p {
+  opacity: 0.65;
+  margin-bottom: 2rem;
+}
+.about-strip-text .btn {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+.about-strip-text .btn:hover {
+  background: transparent;
+  color: var(--paper);
+}
+
+.about-strip-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.stat {
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+}
+
+.stat-num {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  letter-spacing: -0.03em;
+  color: var(--accent-2);
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  opacity: 0.5;
+  display: block;
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .hero-inner,
+  .about-strip-inner { grid-template-columns: 1fr; }
+  .hero-graphic { height: 260px; }
+  .about-strip-stats { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
