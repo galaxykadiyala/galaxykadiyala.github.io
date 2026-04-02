@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   --ink: #0a0a0a;
@@ -11,7 +11,7 @@
   --accent-5: #ff6b00;    /* orange */
   --mono: 'JetBrains Mono', monospace;
   --sans: 'Syne', sans-serif;
-  --serif: 'Instrument Serif', serif;
+  --serif: 'Manrope', sans-serif;
   --radius: 4px;
   --gap: clamp(1rem, 4vw, 2.5rem);
 }
@@ -37,7 +37,7 @@ h1, h2, h3, h4 { font-family: var(--sans); font-weight: 800; line-height: 1.1; }
 h1 { font-size: clamp(2.5rem, 8vw, 6rem); letter-spacing: -0.03em; }
 h2 { font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -0.02em; }
 h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); }
-p { font-family: var(--serif); font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.75; }
+p { font-family: var(--serif); font-size: clamp(1rem, 1.5vw, 1.1rem); line-height: 1.75; font-weight: 400; }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
