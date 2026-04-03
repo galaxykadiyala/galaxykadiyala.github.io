@@ -2,14 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Resume" description="Resume of Galaxy Kadiyala — Technical Program Manager with 14+ years in cloud, infrastructure, and platform engineering.">
+<BaseLayout title="Resume" description="Resume of Galaxy Kadiyala — Technical Program Manager with 15+ years in cloud, infrastructure, and platform engineering.">
   <section class="section">
     <div class="container">
 
       <div class="resume-header">
         <div>
           <h1>Galaxy Kadiyala</h1>
-          <p class="resume-tagline">Technical Program Manager · Bengaluru, India · igalaxyk@gmail.com · in/galaxyk</p>
+          <p class="resume-tagline">Technical Program Manager · Bengaluru, India · igalaxyk@gmail.com · <a href="https://linkedin.com/in/galaxyk" target="_blank" rel="noopener" class="tagline-link">in/galaxyk</a></p>
         </div>
         <div class="resume-header-actions">
           <a href="/contact" class="btn outline">Contact →</a>
@@ -149,14 +149,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div class="community-list">
               <div class="community-item">
                 <div>
-                  <strong>Managing HA File Servers</strong>
+                  <a href="https://patents.google.com/patent/US11770447B2" target="_blank" rel="noopener" class="patent-link"><strong>Managing HA File Servers</strong></a>
                   <span class="community-location">US 11,770,447 B2 · 2023</span>
                 </div>
                 <span class="tag green">Granted</span>
               </div>
               <div class="community-item">
                 <div>
-                  <strong>Verifying Snapshot Integrity</strong>
+                  <a href="https://patents.google.com/patent/US11455277B2" target="_blank" rel="noopener" class="patent-link"><strong>Verifying Snapshot Integrity</strong></a>
                   <span class="community-location">US 11,455,277 B2 · 2022</span>
                 </div>
                 <span class="tag green">Granted</span>
@@ -172,7 +172,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div class="community-list">
               <div class="community-item">
                 <div>
-                  <strong>Certified SAFe® 6 Agilist</strong>
+                  <a href="https://www.credly.com/org/scaled-agile/badge/certified-safe-6-agilist" target="_blank" rel="noopener" class="patent-link"><strong>Certified SAFe® 6 Agilist</strong></a>
                   <span class="community-location">Scaled Agile, Inc. · 2025</span>
                 </div>
                 <span class="tag blue">Active</span>
@@ -260,6 +260,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 }
 .resume-header-actions { display: flex; gap: 0.75rem; flex-shrink: 0; }
 
+.tagline-link {
+  color: var(--accent-4);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.tagline-link:hover { opacity: 0.75; }
+
+.patent-link {
+  text-decoration: none;
+  color: inherit;
+}
+.patent-link strong {
+  border-bottom: 1.5px solid var(--accent-4);
+  transition: opacity 0.15s;
+}
+.patent-link:hover strong { opacity: 0.7; }
+
 .resume-body { display: flex; flex-direction: column; }
 
 .resume-section {
@@ -309,8 +326,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 .resume-item-org {
   font-family: var(--mono);
-  font-size: 0.78rem;
-  opacity: 0.45;
+  font-size: 0.82rem;
+  font-weight: 500;
+  opacity: 0.75;
+  color: var(--ink);
 }
 
 .resume-item-bullets {
@@ -349,7 +368,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.75rem;
-  opacity: 0.5;
+  opacity: 0.85;
+  color: var(--ink);
 }
 
 .skill-list {
@@ -385,8 +405,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 }
 .community-location {
   font-family: var(--mono);
-  font-size: 0.72rem;
-  opacity: 0.4;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.7;
+  color: var(--ink);
 }
 
 @media (max-width: 768px) {
