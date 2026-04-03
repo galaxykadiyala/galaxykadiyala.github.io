@@ -2,16 +2,46 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="404 — Not Found">
+<BaseLayout title="404 — Not in Scope">
   <section class="not-found">
     <div class="container">
-      <div class="nf-number">404</div>
-      <h1 class="nf-title">Page not found.</h1>
-      <p class="nf-desc">That URL doesn't exist. Maybe it moved, maybe it never existed. The open web is a big place.</p>
-      <div class="nf-actions">
-        <a href="/" class="btn">Go Home →</a>
-        <a href="/blog" class="btn outline">Read the Blog →</a>
+
+      <p class="nf-number">404</p>
+      <h1 class="nf-title">This page is not in scope.</h1>
+      <p class="nf-desc">
+        The URL you requested has no entry in the roadmap, no ticket in Jira,
+        and no owner assigned. Escalation to leadership has been initiated.
+      </p>
+
+      <div class="incident-card">
+        <p class="incident-label">Incident report — page not found</p>
+        <div class="incident-row">
+          <span class="row-key">Priority</span>
+          <span class="badge red">P0 — Critical</span>
+        </div>
+        <div class="incident-row">
+          <span class="row-key">Status</span>
+          <span class="badge amber">In triage</span>
+        </div>
+        <div class="incident-row">
+          <span class="row-key">Owner</span>
+          <span class="row-val">Unassigned</span>
+        </div>
+        <div class="incident-row">
+          <span class="row-key">ETA</span>
+          <span class="row-val">TBD — pending dependency resolution</span>
+        </div>
+        <div class="incident-row">
+          <span class="row-key">Blocked by</span>
+          <span class="badge yellow">3 open dependencies</span>
+        </div>
       </div>
+
+      <div class="nf-actions">
+        <a href="/" class="btn">Escalate to homepage →</a>
+        <a href="/blog" class="btn outline">Check the blog →</a>
+      </div>
+
     </div>
   </section>
 </BaseLayout>
@@ -20,28 +50,88 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 .not-found {
   display: flex;
   align-items: center;
-  min-height: 70vh;
+  min-height: 75vh;
   padding: 4rem 0;
 }
+
 .nf-number {
   font-family: var(--sans);
   font-weight: 800;
-  font-size: clamp(8rem, 20vw, 16rem);
+  font-size: clamp(6rem, 18vw, 10rem);
   line-height: 1;
   letter-spacing: -0.05em;
   color: var(--accent-1);
-  opacity: 0.15;
+  opacity: 0.12;
   margin-bottom: -1rem;
 }
+
 .nf-title {
-  font-size: clamp(2rem, 5vw, 4rem);
-  margin-bottom: 1rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
 }
+
 .nf-desc {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   opacity: 0.6;
-  max-width: 45ch;
+  max-width: 48ch;
   margin-bottom: 2.5rem;
 }
+
+.incident-card {
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+  background: var(--paper);
+}
+
+.incident-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  margin-bottom: 1rem;
+}
+
+.incident-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  gap: 1rem;
+}
+.incident-row:last-child { border-bottom: none; }
+
+.row-key {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  opacity: 0.5;
+  font-weight: 600;
+}
+
+.row-val {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-align: right;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+.badge.red    { background: var(--accent-1); color: #fff; }
+.badge.amber  { background: var(--accent-5); color: #fff; }
+.badge.yellow { background: var(--accent-2); color: var(--ink); }
+
 .nf-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 </style>
