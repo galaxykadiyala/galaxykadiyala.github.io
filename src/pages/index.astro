@@ -15,23 +15,21 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-text">
-        <div class="hero-eyebrow">
-          <span class="tag green">Technical Program Manager</span>
-          <span class="tag blue">Open Source</span>
-          <span class="tag orange">Bangalore</span>
-        </div>
+        <p class="hero-eyebrow">TPM · Cloud &amp; Infra · Release &amp; Quality · AI</p>
         <h1 class="hero-title">
           Hey, I'm<br/>
           <em>Galaxy</em><br/>
           Kadiyala
         </h1>
         <p class="hero-desc">
-          Technical Program Manager with 15+ years delivering large-scale cloud, infrastructure,
-          and platform engineering programs. Former Mozilla Reps Mentor. Occasional blogger.
+          I'm a Technical Program Manager driving large-scale cloud and infrastructure programs.
+        </p>
+        <p class="hero-subdesc">
+          I write about execution, release systems, and managing complex engineering programs at scale.
         </p>
         <div class="hero-actions">
-          <a href="/blog" class="btn">Read the Blog</a>
-          <a href="/about" class="btn outline">About Me →</a>
+          <a href="/blog" class="btn">Read My Work</a>
+          <a href="/about" class="btn outline">My Background →</a>
         </div>
       </div>
 
@@ -54,10 +52,10 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
     <!-- Ticker -->
     <div class="ticker">
       <div class="ticker-inner">
-        {['Technical Program Manager', 'Cloud Infrastructure', 'Nutanix', 'AWS Migration', 'Rubrik', 'Pure Storage', 'Open Source', 'Bangalore', 'Mozilla', 'CI/CD', '2x US Patents'].map(t => (
+        {['Technical Program Manager', 'Cloud & Infrastructure', 'Release Systems', 'Execution at Scale', 'Rubrik', 'Nutanix', 'Pure Storage', '2x US Patents', 'Open Source'].map(t => (
           <span>{t} <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span>
         ))}
-        {['Technical Program Manager', 'Cloud Infrastructure', 'Nutanix', 'AWS Migration', 'Rubrik', 'Pure Storage', 'Open Source', 'Bangalore', 'Mozilla', 'CI/CD', '2x US Patents'].map(t => (
+        {['Technical Program Manager', 'Cloud & Infrastructure', 'Release Systems', 'Execution at Scale', 'Rubrik', 'Nutanix', 'Pure Storage', '2x US Patents', 'Open Source'].map(t => (
           <span>{t} <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg></span>
         ))}
       </div>
@@ -91,13 +89,13 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
   <section class="about-strip">
     <div class="container about-strip-inner">
       <div class="about-strip-text">
-          <h2>14+ Years in<br/><em>Tech & Programs</em></h2>
-          <p>From QA lead to Engineering Manager to TPM — delivering large-scale cloud, infra, and platform programs at Nutanix, Pure Storage, and Rubrik.</p>
+          <h2>15+ Years in<br/><em>Tech & Programs</em></h2>
+          <p>From QA lead to Engineering Manager to TPM — delivering large-scale cloud, infra, and platform programs at Nutanix, Pure Storage, and Rubrik. Currently managing manual and automation test engineering alongside platform programs.</p>
           <a href="/about" class="btn">Learn more →</a>
         </div>
         <div class="about-strip-stats">
           <div class="stat">
-            <span class="stat-num">14+</span>
+            <span class="stat-num">15+</span>
             <span class="stat-label">Years Experience</span>
           </div>
           <div class="stat">
@@ -131,10 +129,12 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
 }
 
 .hero-eyebrow {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.45;
+  margin-bottom: 1.25rem;
 }
 
 .hero-title {
@@ -156,6 +156,14 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   max-width: 42ch;
   opacity: 0.75;
+  margin-bottom: 0.75rem;
+}
+
+.hero-subdesc {
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  max-width: 46ch;
+  opacity: 0.45;
+  line-height: 1.7;
   margin-bottom: 2rem;
 }
 
