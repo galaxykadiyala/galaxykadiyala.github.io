@@ -39,13 +39,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="contact-right">
-          <div class="gform-wrapper">
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLSdQLkovA_XEooUqBxu5Ki4a_51eilAMO2eq3Ojd2kc-oFplww/viewform?embedded=true"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0"
-            >Loading…</iframe>
+          <div class="form-cta">
+            <p class="form-cta-desc">
+              Fill out the form and it lands straight in my inbox.
+              Takes less than a minute.
+            </p>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdQLkovA_XEooUqBxu5Ki4a_51eilAMO2eq3Ojd2kc-oFplww/viewform"
+              target="_blank"
+              rel="noopener"
+              class="btn form-btn"
+            >
+              Open Contact Form →
+            </a>
+            <p class="form-note">Opens in a new tab · Responses go to my email</p>
           </div>
         </div>
 
@@ -118,18 +125,33 @@ a.channel-value:hover { color: var(--accent-4); }
   gap: 1.5rem;
 }
 
-.gform-wrapper {
+.form-cta {
   border: 2px solid var(--ink);
   border-radius: 10px;
-  overflow: hidden;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   background: var(--paper);
+  box-shadow: 6px 6px 0 var(--accent-2);
 }
 
-.gform-wrapper iframe {
-  width: 100%;
-  min-height: 600px;
-  display: block;
-  border: none;
+.form-cta-desc {
+  font-size: 1.1rem;
+  opacity: 0.7;
+  line-height: 1.65;
+}
+
+.form-btn {
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  align-self: flex-start;
+}
+
+.form-note {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  opacity: 0.4;
 }
 
 @media (max-width: 768px) {
