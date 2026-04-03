@@ -14,7 +14,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <em>talk.</em>
           </h1>
           <p class="contact-desc">
-            Whether it's about Mozilla, open source, the web, Program Management, or just something
+            Whether it's about Mozilla, open source, the web, or just something
             cool you're building — I'm always happy to connect.
           </p>
 
@@ -33,30 +33,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
             <div class="channel">
               <span class="channel-label">Location</span>
-              <span class="channel-value">&#x1F30F; Earth</span>
+              <span class="channel-value">🌏 Earth</span>
             </div>
           </div>
         </div>
 
         <div class="contact-right">
-          <form class="contact-form" name="contact" netlify>
-            <div class="form-group">
-              <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" placeholder="Ada Lovelace" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="ada@example.com" required />
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="6" placeholder="What's on your mind?" required></textarea>
-            </div>
-            <button type="submit" class="btn">Send Message →</button>
-          </form>
-          <p class="form-note">
-            ⚡ Or just email directly — I check it regularly.
-          </p>
+          <div class="gform-wrapper">
+            <iframe
+              src="https://docs.google.com/forms/d/e/1FAIpQLSdQLkovA_XEooUqBxu5Ki4a_51eilAMO2eq3Ojd2kc-oFplww/viewform?embedded=true"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+            >Loading…</iframe>
+          </div>
         </div>
 
       </div>
@@ -128,50 +118,18 @@ a.channel-value:hover { color: var(--accent-4); }
   gap: 1.5rem;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-family: var(--sans);
-  font-weight: 700;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  opacity: 0.6;
-}
-
-.form-group input,
-.form-group textarea {
-  font-family: var(--serif);
-  font-size: 1rem;
-  padding: 0.85rem 1rem;
+.gform-wrapper {
   border: 2px solid var(--ink);
-  border-radius: var(--radius);
+  border-radius: 10px;
+  overflow: hidden;
   background: var(--paper);
-  color: var(--ink);
-  width: 100%;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  resize: vertical;
-}
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--accent-4);
-  box-shadow: 0 0 0 3px rgba(61, 90, 255, 0.12);
-}
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  opacity: 0.35;
 }
 
-.form-note {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  opacity: 0.4;
-  margin-top: 1rem;
+.gform-wrapper iframe {
+  width: 100%;
+  min-height: 600px;
+  display: block;
+  border: none;
 }
 
 @media (max-width: 768px) {
