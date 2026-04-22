@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="About" description="About Galaxy Kadiyala — Mozilla community member, open source evangelist, Bangalore.">
+<BaseLayout title="About" description="Galaxy Kadiyala — Technical Program Manager focused on systems, execution, and leverage. 15+ years across cloud, infrastructure, and platform engineering.">
   <section class="section">
     <div class="container">
 
@@ -12,14 +12,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="about-left">
           <h1 class="about-title">
             TPM.<br/>
-            Builder.<br/>
-            <em>Open Web</em> believer.
+            Systems builder.<br/>
+            <em>Open web</em> believer.
           </h1>
+          <p class="about-tagline">Most work fails at execution. I fix that.</p>
           <div class="about-accent-block">
             <span class="tag red">Technical Program Manager</span>
-            <span class="tag blue">2x US Patents</span>
-            <span class="tag green">Cloud &amp; Infra</span>
-            <span class="tag orange">Mozilla</span>
+            <span class="tag blue">Systems Thinking</span>
+            <span class="tag green">AI &amp; Infra</span>
+            <span class="tag orange">2&times; US Patents</span>
+            <span class="tag">Mozilla</span>
           </div>
         </div>
 
@@ -27,20 +29,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="about-right">
           <div class="about-bio">
             <p>
-              Hey, I'm Galaxy Kadiyala — a Technical Program Manager focused on making large-scale engineering systems actually deliver. I've spent 15+ years across cloud, infrastructure, QA, and platform engineering, driving AWS migrations, CI/CD transformations, UI testing, and release execution across distributed teams.
+              I work on systems that need to deliver, not just exist.
             </p>
             <p>
-              At Nutanix, Pure Storage, and Rubrik, I've worked on systems used by 10,000+ customers — coordinating engineering streams, managing dependencies, and improving delivery predictability. I hold two US patents in distributed systems.
+              Over the last 15+ years, I've worked across cloud, infrastructure, QA, and platform engineering. I focus on execution across distributed teams and complex dependencies.
             </p>
             <p>
-              Outside work, I've been part of the Mozilla community since 2010 — mentoring contributors and helping scale open web initiatives across India. That shaped how I think about collaboration, ownership, and building systems that scale beyond individuals.
+              At Nutanix, Pure Storage, and Rubrik, I've worked on systems used by 10,000+ customers. This includes migrations, CI/CD transformations, and improving delivery predictability. I hold two US patents in distributed systems.
+            </p>
+            <p>
+              My focus is simple. Turn messy execution into systems that scale.
+            </p>
+            <p>
+              Outside work, I've been part of the Mozilla community since 2010. I mentor contributors and help scale open web initiatives across the world.
+            </p>
+            <p>
+              That experience shaped how I think. Systems over effort. Leverage over activity.
             </p>
           </div>
 
           <div class="about-links">
-            <a href="https://github.com/galaxykadiyala" target="_blank" rel="noopener" class="btn">GitHub →</a>
+            <a href="/projects" class="btn">View Work →</a>
             <a href="/contact" class="btn outline">Get in touch →</a>
-            <a href="/resume" class="btn outline">Resume →</a>
+            <a href="/resume" class="btn outline">Resume ↗</a>
           </div>
         </div>
 
@@ -60,7 +71,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             { year: '2022', label: 'US Patent — Verifying Snapshot Integrity', color: 'var(--accent-4)' },
             { year: '2023', label: 'US Patent — Managing HA File Servers', color: 'var(--accent-2)' },
             { year: '2024', label: 'TPM at Aziro — deputed to Pure Storage & Rubrik', color: 'var(--accent-5)' },
-            { year: 'Now', label: 'IIM PGCP grad · Reviving the blog. Still building.', color: 'var(--accent-1)' },
+            { year: 'Now',  label: 'IIM PGCP grad · Reviving the blog. Still building.', color: 'var(--accent-1)' },
           ].map(item => (
             <div class="timeline-item">
               <div class="timeline-dot" style={`background: ${item.color}`}></div>
@@ -82,7 +93,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   gap: 5rem;
   align-items: start;
   padding-bottom: 5rem;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--border);
   margin-bottom: 5rem;
 }
 
@@ -90,13 +101,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   line-height: 1.05;
   letter-spacing: -0.03em;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 .about-title em {
   font-family: var(--sans);
   font-style: normal;
   font-weight: 800;
   color: var(--accent-1);
+}
+
+.about-tagline {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--fg-2);
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.01em;
 }
 
 .about-accent-block {
@@ -112,8 +131,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   margin-bottom: 2.5rem;
 }
 .about-bio p {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   opacity: 0.8;
+  line-height: 1.75;
 }
 
 .about-links {
@@ -142,8 +162,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   top: 10px;
   bottom: 10px;
   width: 2px;
-  background: var(--ink);
-  opacity: 0.12;
+  background: var(--border);
 }
 
 .timeline-item {
@@ -152,7 +171,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   gap: 1rem;
   align-items: center;
   padding: 1.25rem 0;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+  border-bottom: 1px solid var(--border);
   position: relative;
 }
 
@@ -163,7 +182,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   height: 14px;
   border-radius: 50%;
   border: 2px solid var(--paper);
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--border);
   top: 50%;
   transform: translateY(-50%);
 }

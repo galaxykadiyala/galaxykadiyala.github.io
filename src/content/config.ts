@@ -22,6 +22,7 @@ const projects = defineCollection({
     tags: z.array(z.string()).optional(),
     status: z.enum(['active', 'archived', 'wip']).optional().default('active'),
     year: z.number(),
+    featured: z.boolean().optional().default(false),
   }),
 });
 

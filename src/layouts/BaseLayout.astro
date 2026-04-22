@@ -9,25 +9,42 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description = "Galaxy Kadiyala — Mozilla Community Member, Blogger, Open Source Enthusiast", ogImage } = Astro.props;
+const {
+  title,
+  description = "Technical Program Manager focused on systems thinking, AI workflows, and building leverage. Based in Bengaluru.",
+  ogImage
+} = Astro.props;
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const pageTitle = title.includes('Galaxy Kadiyala') ? title : `${title} — Galaxy Kadiyala`;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Dark mode init — must run before any render to prevent flash -->
+  <script is:inline>
+    (function() {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="canonical" href={canonicalURL} />
   <meta name="description" content={description} />
-  <meta property="og:title" content={title} />
+
+  <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:type" content="website" />
-  {ogImage && <meta property="og:image" content={ogImage} />}
+  {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
   <meta name="twitter:card" content="summary_large_image" />
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>{title} — Galaxy Kadiyala</title>
+  <title>{pageTitle}</title>
   <script defer src="https://cloud.umami.is/script.js" data-website-id="e8495c9a-047a-4f20-9b00-eb345decb305"></script>
 </head>
 <body>
@@ -40,7 +57,5 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 </html>
 
 <style is:global>
-  main {
-    min-height: calc(100vh - 140px);
-  }
+  main { min-height: calc(100vh - 140px); }
 </style>

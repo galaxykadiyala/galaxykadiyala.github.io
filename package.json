@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "post": "node --env-file=.env scripts/new-post.mjs",
     "new-post": "node --env-file=.env scripts/new-post.mjs",
     "analytics": "node --env-file=.env scripts/analytics.mjs",
     "og-image": "node --env-file=.env scripts/og-image.mjs"
