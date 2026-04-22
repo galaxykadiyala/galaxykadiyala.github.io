@@ -5,11 +5,18 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "new-post": "node --env-file=.env scripts/new-post.mjs",
+    "analytics": "node --env-file=.env scripts/analytics.mjs",
+    "og-image": "node --env-file=.env scripts/og-image.mjs"
   },
   "dependencies": {
     "astro": "4.15.0",
     "@astrojs/mdx": "3.1.0",
     "@astrojs/sitemap": "3.1.0"
+  },
+  "devDependencies": {
+    "satori": "^0.10.14",
+    "@resvg/resvg-js": "^2.6.2"
   }
 }
