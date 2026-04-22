@@ -17,6 +17,11 @@ const blogDir = join(process.cwd(), 'src/content/blog');
 const outDir = join(process.cwd(), 'public/og');
 mkdirSync(outDir, { recursive: true });
 
+// Satori requires TTF/OTF/WOFF — not WOFF2. Load once at startup.
+const fontData = readFileSync(
+  join(process.cwd(), 'node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-700-normal.woff')
+);
+
 function parseTitle(content) {
   const m = content.match(/^title:\s*["']?(.+?)["']?\s*$/m);
   return m ? m[1] : null;
@@ -32,50 +37,65 @@ async function generate(file) {
   const fileSlug = file.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.md$/, '');
   const outPath = join(outDir, `${fileSlug}.png`);
 
-  const svg = await satori(
-    {
-      type: 'div',
-      props: {
-        style: {
-          width: '1200px',
-          height: '630px',
-          background: '#0a0a0a',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '80px',
-          fontFamily: 'sans-serif',
-        },
-        children: [
-          {
-            type: 'div',
-            props: {
-              style: {
-                color: '#f5f0e8',
-                fontSize: title.length > 50 ? '60px' : '72px',
-                fontWeight: '700',
-                lineHeight: '1.1',
-                maxWidth: '1000px',
-              },
-              children: title,
-            },
+  try {
+    const svg = await satori(
+      {
+        type: 'div',
+        props: {
+          style: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            background: '#0a0a0a',
+            padding: 80,
+            fontFamily: 'Plus Jakarta Sans',
           },
-          {
-            type: 'div',
-            props: {
-              style: { color: '#888888', fontSize: '32px' },
-              children: 'galaxykadiyala.com',
+          children: [
+            {
+              type: 'div',
+              props: {
+                style: {
+                  color: '#f5f0e8',
+                  fontSize: title.length > 50 ? 60 : 72,
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  maxWidth: 1000,
+                },
+                children: title,
+              },
             },
+            {
+              type: 'div',
+              props: {
+                style: { color: '#888888', fontSize: 32 },
+                children: 'galaxykadiyala.github.io',
+              },
+            },
+          ],
+        },
+      },
+      {
+        width: 1200,
+        height: 630,
+        fonts: [
+          {
+            name: 'Plus Jakarta Sans',
+            data: fontData,
+            weight: 700,
+            style: 'normal',
           },
         ],
-      },
-    },
-    { width: 1200, height: 630, fonts: [] }
-  );
+      }
+    );
 
-  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 1200 } });
-  writeFileSync(outPath, resvg.render().asPng());
-  console.log(outPath);
+    const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 1200 } });
+    writeFileSync(outPath, resvg.render().asPng());
+    console.log(`✓ ${outPath}`);
+  } catch (err) {
+    console.error(`Error generating OG image for ${file}:`);
+    console.error(err.message ?? err);
+    process.exit(1);
+  }
 }
 
 const files = readdirSync(blogDir).filter((f) => f.endsWith('.md'));
