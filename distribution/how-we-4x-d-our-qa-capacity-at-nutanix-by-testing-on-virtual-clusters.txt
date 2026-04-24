@@ -1,0 +1,35 @@
+# Distribution Draft: How we 4x'd our QA capacity at Nutanix by testing on virtual clusters
+# Slug:  how-we-4x-d-our-qa-capacity-at-nutanix-by-testing-on-virtual-clusters
+# Date:  2026-04-24
+# URL:   https://galaxykadiyala.github.io/blog/how-we-4x-d-our-qa-capacity-at-nutanix-by-testing-on-virtual-clusters
+
+────────────────────────────────────────────
+SHORT SUMMARY (2–3 lines for newsletters / bio links)
+────────────────────────────────────────────
+How we 4x'd our QA capacity at Nutanix by testing on virtual clusters. [Write 2–3 lines summarizing the core insight here.]
+
+
+────────────────────────────────────────────
+LINKEDIN DRAFT
+────────────────────────────────────────────
+[Opening hook — one sentence that makes someone stop scrolling.]
+
+[Core insight or story — 3–5 short paragraphs. Be specific.]
+
+Key takeaways:
+→ [Point 1]
+→ [Point 2]
+→ [Point 3]
+
+Read: https://galaxykadiyala.github.io/blog/how-we-4x-d-our-qa-capacity-at-nutanix-by-testing-on-virtual-clusters
+
+#TPM #SystemsThinking #[AddTags]
+
+
+────────────────────────────────────────────
+NEXT STEPS
+────────────────────────────────────────────
+[ ] Generate OG image:  npm run og-image -- how-we-4x-d-our-qa-capacity-at-nutanix-by-testing-on-virtual-clusters
+[ ] Set draft: false in frontmatter
+[ ] Fill in description field
+[ ] Review and publish

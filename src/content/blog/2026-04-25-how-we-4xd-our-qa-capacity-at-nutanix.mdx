@@ -1,0 +1,109 @@
+---
+title: "How we 4x'd our QA capacity at Nutanix by testing on virtual clusters"
+description: "A developer productivity story: we didn't buy more hardware, we changed what tests ran on."
+date: 2026-04-25
+tags: ["tpm", "systems", "qa", "infrastructure", "nutanix"]
+---
+
+Every QA team I've worked with has the same bottleneck: not enough clusters. Engineers queue up. PRs pile behind pre-check runs. Someone suggests "can we just buy more hardware?" and finance suggests otherwise.
+
+At Nutanix, on the developer productivity team, we hit exactly this wall. But instead of optimizing test execution, we changed what tests ran on. This is how we ended up spinning 4 virtual clusters out of 1 physical cluster, and why it mattered for more than just the hardware budget.
+
+## The wall we hit
+
+Our QA infrastructure looked roughly like this. A fleet of physical clusters, each one dedicated to a specific suite or team. When a developer opened a PR, pre-check runs had to grab a cluster, deploy the build, run tests, tear it down, and hand the cluster back to the queue.
+
+Two things were constantly broken:
+
+**Queue depth.** At peak, a PR could wait hours before a cluster was free. Multiply that across a few hundred engineers and you get a noticeable drag on ship velocity.
+
+**Dirty clusters.** Tests don't always clean up after themselves. Reboots, upgrade paths, failed teardowns, leftover VMs, all of it accumulated. Every few days a cluster would start failing tests for reasons completely unrelated to the PR under test. We'd spend hours debugging "why is this test flaky" before realizing the cluster state was corrupted from three runs ago.
+
+The traditional answer is "buy more hardware." But hardware has a multi-quarter procurement cycle, a rack-and-stack tax, and at our scale, the capex was real. We needed a different lever.
+
+## What we changed
+
+Nutanix's platform was already good at one thing: spinning up virtualized infrastructure fast. So the question became: can we run our tests on virtual clusters deployed on top of physical ones?
+
+The answer, as it turns out, was yes. Each physical cluster could host **3 to 4 virtual clusters** simultaneously. We rebuilt the CI infrastructure around this.
+
+<svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 720px; margin: 2rem 0; font-family: 'JetBrains Mono', ui-monospace, monospace;" role="img" aria-label="Diagram comparing before: 1 physical cluster serves 1 test at a time; after: 1 physical cluster hosts 4 virtual clusters running 4 tests in parallel">
+
+  <text x="180" y="30" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor" letter-spacing="0.08em">BEFORE</text>
+  <rect x="80" y="50" width="200" height="120" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="180" y="75" text-anchor="middle" font-size="11" fill="currentColor">1 physical cluster</text>
+  <rect x="110" y="95" width="140" height="55" rx="3" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1"/>
+  <text x="180" y="120" text-anchor="middle" font-size="10" fill="#d85a30" font-weight="600">1 TEST RUNNING</text>
+  <text x="180" y="138" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.6">others queued</text>
+  <text x="180" y="195" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.8">serial · dirty state · queue builds</text>
+
+
+  <line x1="310" y1="110" x2="390" y2="110" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+  <polygon points="390,110 383,106 383,114" fill="currentColor" opacity="0.4"/>
+
+
+  <text x="540" y="30" text-anchor="middle" font-size="11" font-weight="600" fill="#d85a30" letter-spacing="0.08em">AFTER</text>
+  <rect x="420" y="50" width="240" height="120" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="540" y="75" text-anchor="middle" font-size="11" fill="currentColor">1 physical cluster</text>
+
+  <rect x="435" y="90" width="50" height="70" rx="3" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1"/>
+  <text x="460" y="115" text-anchor="middle" font-size="8" fill="#d85a30" font-weight="600">VC 1</text>
+  <text x="460" y="130" text-anchor="middle" font-size="7" fill="currentColor" opacity="0.7">test A</text>
+
+  <rect x="493" y="90" width="50" height="70" rx="3" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1"/>
+  <text x="518" y="115" text-anchor="middle" font-size="8" fill="#d85a30" font-weight="600">VC 2</text>
+  <text x="518" y="130" text-anchor="middle" font-size="7" fill="currentColor" opacity="0.7">test B</text>
+
+  <rect x="551" y="90" width="50" height="70" rx="3" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1"/>
+  <text x="576" y="115" text-anchor="middle" font-size="8" fill="#d85a30" font-weight="600">VC 3</text>
+  <text x="576" y="130" text-anchor="middle" font-size="7" fill="currentColor" opacity="0.7">test C</text>
+
+  <rect x="609" y="90" width="50" height="70" rx="3" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1"/>
+  <text x="634" y="115" text-anchor="middle" font-size="8" fill="#d85a30" font-weight="600">VC 4</text>
+  <text x="634" y="130" text-anchor="middle" font-size="7" fill="currentColor" opacity="0.7">test D</text>
+
+  <text x="540" y="195" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.8">parallel · fresh state · 4x throughput</text>
+
+
+  <text x="360" y="255" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.5" letter-spacing="0.04em">VC = VIRTUAL CLUSTER · SPAWNED ON DEMAND · DELETED AFTER TEST</text>
+</svg>
+
+That single shift, physical to virtual, changed the economics in three places at once.
+
+## What it unlocked
+
+**1. A 3-4x multiplier on cluster capacity without buying hardware.**
+
+Every physical cluster was now effectively doing the work of 3 or 4. Across the fleet, that meant roughly 3-4x the effective capacity we had before. Capex flat, throughput up.
+
+**2. Parallel test execution instead of serial.**
+
+The old model was queue-driven: tests waited their turn on a physical cluster. The new model let a PR spin up a fresh virtual cluster on demand, run its tests, and tear down, while three other tests did the same thing on the same physical box. Developer PR runs got dramatically faster because the bottleneck shifted from "wait for cluster" to "run the test itself."
+
+**3. The dirty-cluster problem disappeared.**
+
+Virtual clusters are disposable. Spin one up, run the test, delete it. Every test starts with a pristine cluster. No leftover state, no ghost VMs, no "why is this test flaky on Tuesdays" debugging. That alone saved the team hours every week that used to go into environment forensics.
+
+## The part most people forget: resilience
+
+Virtualization introduced a new risk. If the management plane for those virtual clusters went down, you'd lose visibility into everything running on top. The easy design is "one Prism Central managing all virtual clusters." The right design is distributed.
+
+We attached **multiple Prism Elements to a single Prism Central**, so if any one management node failed, the system continued operating. A broken node becomes a replacement job, not an outage. Business as usual.
+
+This is an easy thing to skip when you're heads-down shipping a migration. It's also exactly the kind of thing that separates a working system from one that stays working at 3am on a Saturday.
+
+## What I took from this project
+
+Three things, all of which I've carried into every TPM role since:
+
+**The highest-leverage QA improvement is often not a QA improvement.** Most teams facing "we don't have enough clusters" reach for parallelization, better test sharding, or smarter queue management. Those are optimizations. The bigger win was changing the substrate the tests ran on. When you can't optimize further inside the current frame, change the frame.
+
+**Disposable beats reusable for test environments.** State is the enemy of reliable tests. Any time you can make an environment cheap to throw away, you eliminate a whole category of flakiness. This generalizes, containerized test runners, ephemeral preview environments, snapshot-based DB resets, all of it is the same principle.
+
+**Distributed beats centralized for anything you depend on.** A single management plane is a single point of failure. Multiple PEs per PC cost more to design but cost nothing to operate. Resilience is cheapest when you build it in, not when you bolt it on.
+
+## Postscript
+
+This was one piece of my time on developer productivity at Nutanix. The regression pipeline was another story, one where we caught master-breaking bugs before they got into the integration branch and turned a chaotic daily firefight into a 24-hour rhythm that teams actually trusted. I'll write that one up next.
+
+<p style="font-size: 0.875rem; opacity: 0.6; margin-top: 3rem; font-family: 'JetBrains Mono', ui-monospace, monospace;">// Senior Member of Technical Staff at Nutanix, 2017–2021. Developer productivity team.</p>
