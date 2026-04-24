@@ -125,6 +125,13 @@ const { Content } = await post.render();
   margin: 2rem auto;
   border: 2px solid var(--ink);
 }
+.post-content :global(svg) {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+  color: inherit;
+}
 .post-content :global(hr) {
   border: none;
   border-top: 2px solid var(--ink);

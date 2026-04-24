@@ -10,7 +10,7 @@ if (!title) {
 
 const today = new Date().toISOString().slice(0, 10);
 const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const filename = `${today}-${slug}.md`;
+const filename = `${today}-${slug}.mdx`;
 const postPath = join(process.cwd(), 'src/content/blog', filename);
 
 if (existsSync(postPath)) {
