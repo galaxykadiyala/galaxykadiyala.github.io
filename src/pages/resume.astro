@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Resume" description="Resume of Galaxy Kadiyala — Technical Program Manager with 15+ years in cloud, infrastructure, and platform engineering.">
-  <section class="section">
-    <div class="container">
+  <div class="resume-page">
 
       <div class="resume-header">
         <div>
@@ -240,11 +239,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
       </div>
-    </div>
-  </section>
+  </div>
 </BaseLayout>
 
 <style>
+.resume-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 5rem) var(--gap);
+}
+
 .resume-header {
   display: flex;
   align-items: flex-end;
