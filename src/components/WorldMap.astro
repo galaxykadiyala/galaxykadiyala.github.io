@@ -1,0 +1,389 @@
+---
+// WorldMap.astro
+// "Where I've been" — countries-only world map for Astro.
+// Dark mode: soft coral glow on visited countries.
+// Light mode: clean solid coral fills.
+// No npm deps: D3 and topojson load from CDN.
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  regions?: string;
+  visitedISO?: string[]; // ISO 3166-1 numeric, zero-padded to 3 digits
+  countryLabels?: Record<string, string>; // id -> custom hover label
+}
+
+const {
+  title = "Where I've been",
+  subtitle = "Exposure shapes systems. This is where I've worked, learned, and observed.",
+  regions = "North America · Europe · Middle East · South & Southeast Asia",
+  visitedISO = [
+    '840', // USA
+    '124', // Canada
+    '826', // United Kingdom
+    '276', // Germany
+    '528', // Netherlands
+    '056', // Belgium
+    '250', // France
+    '040', // Austria
+    '724', // Spain
+    '300', // Greece
+    '784', // United Arab Emirates
+    '356', // India
+    '764', // Thailand
+    '458', // Malaysia
+    '702', // Singapore
+    '156', // China (proxy for Hong Kong; label overridden on hover)
+  ],
+  // For countries we want to show under a different name on hover.
+  // 156 (China) is where Hong Kong rolls up at 110m resolution.
+  countryLabels = {
+    '156': 'Hong Kong',
+  },
+} = Astro.props;
+
+const totalCountries = 15; // what we actually visited; China is a proxy for HK
+const totalRegions = 4;
+---
+
+<section class="whereivebeen" aria-labelledby="whereivebeen-title">
+  <header class="whereivebeen__head">
+    <h2 id="whereivebeen-title" class="whereivebeen__title">{title}</h2>
+    <p class="whereivebeen__sub">{subtitle}</p>
+  </header>
+
+  <div class="whereivebeen__frame">
+    <div
+      class="whereivebeen__map"
+      id="whereivebeen-map"
+      data-visited={JSON.stringify(visitedISO)}
+      data-labels={JSON.stringify(countryLabels)}
+      role="img"
+      aria-label={`World map showing ${totalCountries} countries visited across ${totalRegions} regions`}
+    ></div>
+    <div class="whereivebeen__tip" id="whereivebeen-tip" aria-hidden="true"></div>
+    <noscript>
+      <p class="whereivebeen__noscript">{regions}</p>
+    </noscript>
+  </div>
+
+  <footer class="whereivebeen__footer">
+    <span class="whereivebeen__regions">{regions}</span>
+    <span class="whereivebeen__stats">
+      <strong>{totalCountries}</strong> countries
+      <span class="whereivebeen__dot">·</span>
+      <strong>{totalRegions}</strong> regions
+    </span>
+  </footer>
+</section>
+
+<script>
+  const MAP_ID = 'whereivebeen-map';
+  const TIP_ID = 'whereivebeen-tip';
+
+  async function loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) {
+        resolve();
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.head.appendChild(s);
+    });
+  }
+
+  function isDarkMode(): boolean {
+    const explicit = document.documentElement.getAttribute('data-theme');
+    if (explicit === 'dark') return true;
+    if (explicit === 'light') return false;
+    // Also handle class-based toggles.
+    if (document.documentElement.classList.contains('dark')) return true;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function getThemeColors() {
+    return isDarkMode()
+      ? {
+          mode: 'dark' as const,
+          landFill:      '#1a1a1a',
+          landStroke:    '#2a2a2a',
+          visitedFill:   '#d85a30',
+          visitedStroke: '#ff6b4a',
+          hoverFill:     '#ff7a48',
+          glowColor:     '#ff6b4a',
+        }
+      : {
+          mode: 'light' as const,
+          landFill:      '#f1eee5',
+          landStroke:    '#e0dcd0',
+          visitedFill:   '#d85a30',
+          visitedStroke: '#b8461f',
+          hoverFill:     '#b8461f',
+          glowColor:     'transparent',
+        };
+  }
+
+  async function initMap() {
+    const host = document.getElementById(MAP_ID);
+    const tip = document.getElementById(TIP_ID);
+    if (!host || !tip) return;
+
+    const visitedList: string[] = JSON.parse(host.dataset.visited || '[]');
+    const labels: Record<string, string> = JSON.parse(host.dataset.labels || '{}');
+    const visitedISO = new Set(visitedList);
+
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js');
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js');
+
+    // @ts-ignore — CDN globals
+    const d3 = (window as any).d3;
+    // @ts-ignore
+    const topojson = (window as any).topojson;
+
+    const world = await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+
+    const width = 900;
+    const height = 440;
+
+    const render = () => {
+      const c = getThemeColors();
+
+      // Clear and rebuild on theme change.
+      host.innerHTML = '';
+
+      const svg = d3
+        .select(host)
+        .append('svg')
+        .attr('viewBox', `0 0 ${width} ${height}`)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('width', '100%')
+        .style('display', 'block');
+
+      // Only define the glow filter in dark mode.
+      if (c.mode === 'dark') {
+        const defs = svg.append('defs');
+        const filter = defs
+          .append('filter')
+          .attr('id', 'wib-glow')
+          .attr('x', '-50%')
+          .attr('y', '-50%')
+          .attr('width', '200%')
+          .attr('height', '200%');
+        filter.append('feGaussianBlur').attr('stdDeviation', '4').attr('result', 'blur');
+        filter.append('feFlood').attr('flood-color', c.glowColor).attr('flood-opacity', '0.9');
+        filter
+          .append('feComposite')
+          .attr('in2', 'blur')
+          .attr('operator', 'in')
+          .attr('result', 'glow');
+        const merge = filter.append('feMerge');
+        merge.append('feMergeNode').attr('in', 'glow');
+        merge.append('feMergeNode').attr('in', 'SourceGraphic');
+      }
+
+      const projection = d3
+        .geoNaturalEarth1()
+        .scale(170)
+        .translate([width / 2, height / 2 + 20]);
+
+      const path = d3.geoPath(projection);
+
+      const countries = topojson
+        .feature(world, world.objects.countries)
+        .features.filter((d: any) => d.id !== '010'); // drop Antarctica
+
+      const isVisited = (d: any) =>
+        visitedISO.has(String(d.id).padStart(3, '0'));
+
+      // Base layer: unvisited countries.
+      svg
+        .append('g')
+        .selectAll('path')
+        .data(countries.filter((d: any) => !isVisited(d)))
+        .join('path')
+        .attr('d', path)
+        .attr('fill', c.landFill)
+        .attr('stroke', c.landStroke)
+        .attr('stroke-width', 0.5);
+
+      // Visited layer: solid fills, with glow in dark mode only.
+      const visitedLayer = svg.append('g');
+      if (c.mode === 'dark') {
+        visitedLayer.attr('filter', 'url(#wib-glow)');
+      }
+
+      visitedLayer
+        .selectAll('path')
+        .data(countries.filter(isVisited))
+        .join('path')
+        .attr('d', path)
+        .attr('fill', c.visitedFill)
+        .attr('stroke', c.visitedStroke)
+        .attr('stroke-width', 0.5)
+        .style('cursor', 'pointer')
+        .style('transition', 'fill 0.2s ease')
+        .on('mouseenter', function (this: SVGPathElement, _e: MouseEvent, d: any) {
+          d3.select(this).attr('fill', c.hoverFill);
+          const iso = String(d.id).padStart(3, '0');
+          const name = labels[iso] || d.properties.name;
+          tip.textContent = name;
+          tip.style.opacity = '1';
+        })
+        .on('mousemove', function (e: MouseEvent) {
+          const rect = host.getBoundingClientRect();
+          tip.style.left = e.clientX - rect.left + 12 + 'px';
+          tip.style.top = e.clientY - rect.top + 12 + 'px';
+        })
+        .on('mouseleave', function (this: SVGPathElement) {
+          d3.select(this).attr('fill', c.visitedFill);
+          tip.style.opacity = '0';
+        });
+    };
+
+    render();
+
+    // Re-render on theme changes.
+    const themeObserver = new MutationObserver(() => render());
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'class'],
+    });
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', render);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMap);
+  } else {
+    initMap();
+  }
+</script>
+
+<style>
+  .whereivebeen {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    margin: 4rem 0;
+  }
+
+  .whereivebeen__head {
+    margin-bottom: 1.5rem;
+  }
+
+  .whereivebeen__title {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.5rem;
+    color: var(--text-primary, #111);
+  }
+
+  .whereivebeen__sub {
+    font-family: 'JetBrains Mono', 'Manrope', ui-monospace, monospace;
+    font-size: 0.875rem;
+    color: var(--text-secondary, #666);
+    margin: 0;
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+  }
+
+  .whereivebeen__frame {
+    position: relative;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+    border-radius: 12px;
+    background: var(--surface, transparent);
+    padding: 1.25rem;
+    overflow: hidden;
+  }
+
+  .whereivebeen__map {
+    width: 100%;
+    min-height: 200px;
+  }
+
+  .whereivebeen__tip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.98);
+    border: 0.5px solid #d85a30;
+    border-radius: 3px;
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #2a1a10;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 10;
+    white-space: nowrap;
+  }
+
+  .whereivebeen__noscript {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary, #666);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .whereivebeen__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .whereivebeen__regions {
+    color: var(--text-secondary, #666);
+  }
+
+  .whereivebeen__stats {
+    color: var(--text-tertiary, #888);
+  }
+
+  .whereivebeen__stats strong {
+    color: var(--text-primary, #111);
+    font-weight: 600;
+  }
+
+  .whereivebeen__dot {
+    margin: 0 0.4rem;
+    opacity: 0.5;
+  }
+
+  /* Dark mode adjustments. Handles both data-theme="dark" and a .dark class. */
+  :global([data-theme='dark']) .whereivebeen__frame,
+  :global(html.dark) .whereivebeen__frame {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: #0d0d0d;
+  }
+
+  :global([data-theme='dark']) .whereivebeen__tip,
+  :global(html.dark) .whereivebeen__tip {
+    background: rgba(18, 18, 18, 0.96);
+    border-color: #ff6b4a;
+    color: #f0f0f0;
+  }
+
+  @media (max-width: 640px) {
+    .whereivebeen__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .whereivebeen__frame {
+      padding: 0.75rem;
+    }
+  }
+</style>
