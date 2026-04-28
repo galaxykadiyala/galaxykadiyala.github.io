@@ -1,0 +1,63 @@
+---
+// Comments.astro — Giscus comments wrapper.
+// Loads Giscus on the client, themed to match the site's light/dark mode.
+---
+
+<section class="comments">
+  <h2 class="comments__heading">Comments</h2>
+  <p class="comments__hint">
+    Sign in with GitHub to comment. Replies will email me, I read them all.
+  </p>
+  <div class="comments__container" id="giscus-container"></div>
+</section>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="galaxykadiyala/galaxykadiyala.github.io"
+  data-repo-id="R_kgDOMyfI4g"
+  data-category="Announcements"
+  data-category-id="DIC_kwDOMyfI4s4C73Xt"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="preferred_color_scheme"
+  data-lang="en"
+  crossorigin="anonymous"
+  async
+></script>
+
+<style>
+  .comments {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
+  }
+
+  .comments__heading {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+    color: var(--text-primary, #111);
+  }
+
+  .comments__hint {
+    font-family: 'JetBrains Mono', 'Manrope', ui-monospace, monospace;
+    font-size: 0.8125rem;
+    color: var(--text-secondary, #666);
+    margin: 0 0 1.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .comments__container {
+    min-height: 100px;
+  }
+
+  :global([data-theme='dark']) .comments,
+  :global(html.dark) .comments {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+</style>
