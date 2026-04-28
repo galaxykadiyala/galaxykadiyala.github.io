@@ -1,0 +1,22 @@
+---
+title: "Daily master regression at Nutanix"
+summary: "Built a daily P0 quality gate between merge and full regression. Cross-team blocker bugs caught one layer earlier, and the same pipeline ended up powering customer betas."
+year: "2022"
+status: shipped
+category: professional
+techStack: ["Release Engineering", "QA", "Test Automation", "Quality Gates"]
+blogPostSlug: "2026-04-28-how-daily-master-regression-saved-our-qa-teams-and-our-customer-betas"
+order: 2
+---
+
+## The problem
+
+Master was frequently broken when the regression team picked it up, leading to wasted regression cycles and demoralised QA. Pre-check runs weren't catching enough.
+
+## What I did
+
+Inserted a daily layer between merge and full regression: run the P0 suite across all features on the latest master, calculate a Quality Index, and if QI ≥ 90% tag the build as 24h-master-verified. Other teams adopted the tag voluntarily because it was useful. Customer beta programs later started drawing from the same verified stream.
+
+## The outcome
+
+Cross-team blocker bugs caught one layer earlier. Regression cycles became predictable. Beta build curation shrank from weeks to days. As Engineering Manager / TPM, I led the 15-person regression team running this pipeline.

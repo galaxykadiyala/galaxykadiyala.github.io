@@ -33,7 +33,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <div class="incident-row">
           <span class="row-key">Blocked by</span>
-          <span class="badge yellow">3 open dependencies</span>
+          <a href="/dependencies" class="dep-link" aria-label="View blocking dependencies">
+            <span class="badge yellow">3 open dependencies</span>
+          </a>
         </div>
       </div>
 
@@ -132,6 +134,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 .badge.red    { background: var(--accent-1); color: #fff; }
 .badge.amber  { background: var(--accent-5); color: #fff; }
 .badge.yellow { background: var(--accent-2); color: var(--ink); }
+
+.dep-link {
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.dep-link:hover .badge.yellow {
+  background: #d4a017;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 .nf-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 </style>

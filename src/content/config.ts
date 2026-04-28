@@ -16,13 +16,14 @@ const projects = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    description: z.string(),
-    url: z.string().optional(),
-    github: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-    status: z.enum(['active', 'archived', 'wip']).optional().default('active'),
-    year: z.number(),
-    featured: z.boolean().optional().default(false),
+    summary: z.string(),
+    year: z.string(),
+    status: z.enum(['active', 'shipped', 'archived']),
+    category: z.enum(['professional', 'personal', 'community']),
+    techStack: z.array(z.string()),
+    externalUrl: z.string().optional(),
+    blogPostSlug: z.string().optional(),
+    order: z.number().optional(),
   }),
 });
 

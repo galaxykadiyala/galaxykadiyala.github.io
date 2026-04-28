@@ -3,26 +3,32 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.year - a.data.year
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
 );
 
 const statusColors: Record<string, string> = {
-  active: 'green',
+  active:   'green',
+  shipped:  'blue',
   archived: 'red',
-  wip: 'yellow',
+};
+
+const categoryLabel: Record<string, string> = {
+  professional: 'Professional',
+  personal:     'Personal',
+  community:    'Community',
 };
 
 const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
 ---
 
-<BaseLayout title="Projects" description="Things Galaxy Kadiyala has built and worked on.">
+<BaseLayout title="Projects" description="Programs Galaxy Kadiyala has shipped, systems built, and communities been part of.">
   <section class="section">
     <div class="container">
 
       <div class="page-header">
         <div class="page-header-text">
           <h1>Projects</h1>
-          <p>Things I've built, contributed to, or been obsessed with.</p>
+          <p>Programs I've shipped, systems I've built, and communities I've been part of.</p>
         </div>
         <a href="https://github.com/galaxykadiyala" target="_blank" rel="noopener" class="btn outline">
           GitHub →
@@ -34,31 +40,39 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
           <div class="project-card">
             <div class="project-card-top">
               <div class="project-year">{project.data.year}</div>
-              <span class={`tag ${statusColors[project.data.status ?? 'active']}`}>
-                {project.data.status ?? 'active'}
-              </span>
+              <div class="project-badges">
+                <span class={`tag ${statusColors[project.data.status]}`}>
+                  {project.data.status}
+                </span>
+                <span class="tag">{categoryLabel[project.data.category]}</span>
+              </div>
             </div>
 
-            <h2 class="project-title">{project.data.title}</h2>
-            <p class="project-desc">{project.data.description}</p>
+            <h2 class="project-title">
+              <a href={`/projects/${project.slug}`} class="project-title-link">
+                {project.data.title}
+              </a>
+            </h2>
 
-            {project.data.tags && (
+            <p class="project-desc">{project.data.summary}</p>
+
+            {project.data.techStack && (
               <div class="project-tags">
-                {project.data.tags.map((tag, j) => (
+                {project.data.techStack.map((tag, j) => (
                   <span class={`tag ${tagColorList[(i + j) % tagColorList.length]}`}>{tag}</span>
                 ))}
               </div>
             )}
 
             <div class="project-links">
-              {project.data.url && (
-                <a href={project.data.url} target="_blank" rel="noopener" class="btn">
-                  Visit →
+              {project.data.externalUrl && (
+                <a href={project.data.externalUrl} target="_blank" rel="noopener" class="secondary-link">
+                  Visit live ↗
                 </a>
               )}
-              {project.data.github && (
-                <a href={project.data.github} target="_blank" rel="noopener" class="btn outline">
-                  GitHub →
+              {project.data.blogPostSlug && (
+                <a href={`/blog/${project.data.blogPostSlug}`} class="secondary-link">
+                  Read case study →
                 </a>
               )}
             </div>
@@ -121,6 +135,7 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .project-year {
@@ -131,11 +146,31 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
   letter-spacing: 0.05em;
 }
 
+.project-badges {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .project-title {
   font-size: 1.4rem;
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
+
+.project-title-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.project-title-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+}
+.project-card:hover .project-title-link { color: var(--accent-1); }
 
 .project-desc {
   font-size: 0.95rem;
@@ -153,13 +188,22 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
 
 .project-links {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   margin-top: auto;
+  flex-wrap: wrap;
 }
-.project-links .btn {
-  font-size: 0.82rem;
-  padding: 0.55rem 1rem;
+
+.secondary-link {
+  position: relative;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  opacity: 0.5;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  letter-spacing: 0.02em;
 }
+.secondary-link:hover { opacity: 1; }
 
 @media (max-width: 640px) {
   .page-header { flex-direction: column; align-items: flex-start; }

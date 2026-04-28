@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="3 Open Dependencies — Galaxy Kadiyala"
+  description="An incident page for the dependencies blocking the unassigned 404 ticket."
+>
+  <section class="not-found">
+    <div class="container">
+
+      <p class="nf-number">3</p>
+      <h1 class="nf-title">Open dependencies.</h1>
+      <p class="nf-desc">
+        All three are technically active. None of them are progressing. This is fine.
+      </p>
+
+      <div class="dep-list">
+
+        <div class="incident-card">
+          <p class="incident-header">DEP-001 — Awaiting clarification from product</p>
+          <div class="incident-row">
+            <span class="row-key">Priority</span>
+            <span class="badge amber">P1 — High</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Status</span>
+            <span class="badge yellow">Open — 47 days</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Owner</span>
+            <span class="row-val">TBD</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Last update</span>
+            <span class="row-val">"Let's sync next week."</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Last updated</span>
+            <span class="row-val">12 weeks ago</span>
+          </div>
+        </div>
+
+        <div class="incident-card">
+          <p class="incident-header">DEP-002 — Blocked by upstream team roadmap</p>
+          <div class="incident-row">
+            <span class="row-key">Priority</span>
+            <span class="badge yellow">P2 — Medium</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Status</span>
+            <span class="badge yellow">Open — reassigned 3 times</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Owner</span>
+            <span class="row-val">Pending re-org</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Last update</span>
+            <span class="row-val">"We'll pick this up next quarter."</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Last updated</span>
+            <span class="row-val">Last quarter</span>
+          </div>
+        </div>
+
+        <div class="incident-card">
+          <p class="incident-header">DEP-003 — Pending review</p>
+          <div class="incident-row">
+            <span class="row-key">Priority</span>
+            <span class="badge red">P0 — Critical</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Status</span>
+            <span class="badge yellow">Open — reviewer on PTO</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Owner</span>
+            <span class="row-val">Reviewer (returns: TBD)</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Last update</span>
+            <span class="row-val">"Will look at it when I'm back."</span>
+          </div>
+          <div class="incident-row">
+            <span class="row-key">Last updated</span>
+            <span class="row-val">3 weeks ago</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="nf-actions">
+        <a href="/404" class="btn">Back to 404 →</a>
+        <a href="/blog" class="btn outline">Check the blog →</a>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.not-found {
+  display: flex;
+  align-items: center;
+  min-height: 75vh;
+  padding: 4rem 0;
+}
+
+.nf-number {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(6rem, 18vw, 10rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--accent-1);
+  opacity: 0.12;
+  margin-bottom: -1rem;
+}
+
+.nf-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.nf-desc {
+  font-size: 1.05rem;
+  opacity: 0.6;
+  max-width: 48ch;
+  margin-bottom: 2.5rem;
+}
+
+.dep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 540px;
+  margin-bottom: 2.5rem;
+}
+
+.incident-card {
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.incident-header {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.65rem 1.5rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.incident-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  gap: 1rem;
+}
+.incident-row:last-child { border-bottom: none; }
+
+.row-key {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  opacity: 0.5;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.row-val {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-align: right;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.badge.red    { background: var(--accent-1); color: #fff; }
+.badge.amber  { background: var(--accent-5); color: #fff; }
+.badge.yellow { background: var(--accent-2); color: var(--ink); }
+
+.nf-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+@media (max-width: 480px) {
+  .incident-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .row-val {
+    text-align: left;
+  }
+}
+</style>

@@ -1,0 +1,22 @@
+---
+title: "4x'd QA capacity at Nutanix"
+summary: "Switched test infrastructure from physical to virtual clusters. Same hardware, 3–4x throughput, fresher test environments, fewer flakes."
+year: "2018"
+status: shipped
+category: professional
+techStack: ["Nutanix", "Virtualisation", "CI/CD", "QA Infrastructure"]
+blogPostSlug: "2026-04-25-how-we-4xd-our-qa-capacity-at-nutanix"
+order: 1
+---
+
+## The problem
+
+QA infrastructure at Nutanix was bottlenecked on physical clusters. PR pre-checks queued for hours. Test environments accumulated state across runs, producing flaky results that were really environment corruption.
+
+## What I did
+
+As part of the developer productivity team, I migrated test infrastructure from physical clusters to virtualised ones, running 3–4 virtual clusters per physical box. Tests ran in parallel on disposable, pristine environments. Multiple Prism Elements were attached to a single Prism Central for resilience.
+
+## The outcome
+
+3–4x effective capacity without buying hardware. The dirty-cluster flakiness category disappeared. Developer PR cycles dropped meaningfully because the queue stopped being a queue.
