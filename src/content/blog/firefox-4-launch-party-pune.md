@@ -3,6 +3,7 @@ title: "Firefox 4 Launch Party, Pune"
 date: 2011-04-24
 category: "Event"
 description: "Celebrating the Firefox 4 launch in Pune — the Mozilla community comes together for a proper party."
+tags: ["mozilla", "events", "community"]
 ---
 
 Firefox 4 is here and Pune celebrated in style.

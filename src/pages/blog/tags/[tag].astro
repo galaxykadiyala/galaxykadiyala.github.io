@@ -1,10 +1,23 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const publishedPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+  const tags = new Set(allPosts.flatMap(p => p.data.tags ?? []));
+  return [...tags].map(tag => ({
+    params: { tag },
+    props: {
+      posts: allPosts
+        .filter(p => p.data.tags?.includes(tag))
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+
 const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
   day: '2-digit',
   month: 'short',
@@ -14,18 +27,19 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
 const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
 ---
 
-<BaseLayout title="Blog" description="All posts by Galaxy Kadiyala">
+<BaseLayout title={tag} description={`Posts tagged "${tag}" — Galaxy Kadiyala`}>
   <section class="section">
     <div class="container">
 
+      <a href="/blog/tags" class="back-link">← All topics</a>
+
       <div class="page-header">
-        <h1>The Blog</h1>
-        <p>{publishedPosts.length} posts since 2010 — mostly Mozilla, open source, Program Management, and community.</p>
-        <a href="/blog/tags" class="topics-link">Browse by topic →</a>
+        <h1>Tagged: {tag}</h1>
+        <p>{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
       </div>
 
       <div class="blog-list">
-        {publishedPosts.map((post, i) => (
+        {posts.map((post, i) => (
           <div class="blog-row">
             <div class="blog-row-meta">
               <time class="blog-row-date">
@@ -40,8 +54,11 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
               {post.data.description && <p class="blog-row-desc">{post.data.description}</p>}
               {post.data.tags && post.data.tags.length > 0 && (
                 <div class="blog-row-tags">
-                  {post.data.tags.map(tag => (
-                    <a href={`/blog/tags/${tag}`} class="blog-row-tag">{tag}</a>
+                  {post.data.tags.map(t => (
+                    <a
+                      href={`/blog/tags/${t}`}
+                      class:list={['blog-row-tag', { active: t === tag }]}
+                    >{t}</a>
                   ))}
                 </div>
               )}
@@ -56,6 +73,16 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
 </BaseLayout>
 
 <style>
+.back-link {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  opacity: 0.5;
+  margin-bottom: 2rem;
+  transition: opacity 0.15s;
+}
+.back-link:hover { opacity: 1; }
+
 .page-header {
   margin-bottom: 3rem;
   padding-bottom: 2rem;
@@ -69,15 +96,6 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
   font-size: 0.85rem;
   opacity: 0.5;
 }
-.topics-link {
-  display: inline-block;
-  margin-top: 0.75rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  opacity: 0.45;
-  transition: opacity 0.15s;
-}
-.topics-link:hover { opacity: 1; }
 
 .blog-list {
   display: flex;
@@ -157,7 +175,8 @@ const tagColors = ['red', 'yellow', 'green', 'blue', 'orange'];
   transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
   text-decoration: none;
 }
-.blog-row-tag:hover {
+.blog-row-tag:hover,
+.blog-row-tag.active {
   opacity: 1;
   background: var(--ink);
   color: var(--paper);

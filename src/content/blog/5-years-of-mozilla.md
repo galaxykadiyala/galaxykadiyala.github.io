@@ -3,6 +3,7 @@ title: "5 Years of Mozilla"
 date: 2015-01-04
 category: "Mozilla"
 description: "Reflecting on five years of contributing to the Mozilla community and what it has meant to me."
+tags: ["mozilla", "community", "open-source", "personal"]
 ---
 
 Five years ago I started contributing to Mozilla almost by accident. I attended a Firefox launch party in Bangalore, got swept up in the energy, and never really left.

@@ -3,6 +3,7 @@ title: "Event Wrap-up: Firefox Flicks Party Hyderabad"
 date: 2012-05-31
 category: "Event"
 description: "90 attendees, winning videos on the big screen, dumb charades with Mozilla swag as prizes — Firefox Flicks Party Hyderabad was a night to remember."
+tags: ["mozilla", "events", "community"]
 ---
 
 Whoa! That was awesome.

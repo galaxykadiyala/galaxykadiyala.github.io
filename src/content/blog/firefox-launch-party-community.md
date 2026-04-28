@@ -3,6 +3,7 @@ title: "Firefox Launch Party — How Big Our Community Is!"
 date: 2011-05-15
 category: "Event"
 description: "Firefox launch parties around the world showed just how large and passionate the Mozilla community really is."
+tags: ["mozilla", "events", "community"]
 ---
 
 Firefox launch parties are one of those rare events in tech where you genuinely feel the community pulse.

@@ -3,6 +3,7 @@ title: "Firefox Flicks"
 date: 2012-04-17
 category: "Mozilla"
 description: "Firefox Flicks is a global video making contest for budding filmmakers — submit before May 1st for a chance to win $60,000 in camera rental and a trip to Cannes."
+tags: ["mozilla", "community", "open-source"]
 ---
 
 Firefox Flicks is a video making contest. Here's the brief:

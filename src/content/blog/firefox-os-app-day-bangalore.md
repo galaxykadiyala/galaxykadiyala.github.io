@@ -3,6 +3,7 @@ title: "Firefox OS App Day Bangalore"
 date: 2013-01-24
 category: "Event"
 description: "A short video created entirely with Mozilla Popcorn Maker to document Firefox OS App Days Bangalore."
+tags: ["mozilla", "events", "community"]
 ---
 
 This short video was created entirely with [Mozilla Popcorn Maker](https://popcorn.webmaker.org/) to document Firefox OS App Days Bangalore.

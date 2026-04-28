@@ -3,6 +3,7 @@ title: "Mozilla India Community Meet-up '14"
 date: 2014-04-10
 category: "Mozilla"
 description: "The Mozilla India Community Meetup far surpassed expectations — 65 contributors, 3 days, Hyderabad."
+tags: ["mozilla", "community", "events"]
 ---
 
 The Mozilla India Community Meetup '14 far surpassed my expectations. This is the first time a large number of contributors joined the community meet-up in India and it was collaborative, fun, and productive all at once.

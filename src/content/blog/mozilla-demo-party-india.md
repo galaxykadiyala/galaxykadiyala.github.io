@@ -3,6 +3,7 @@ title: "Mozilla Demo Party, India!"
 date: 2011-07-05
 category: "Event"
 description: "The first Demo Party in India since 1999 — HTML5, CSS3, WebM, and a roomful of people discovering what the modern open web can do."
+tags: ["mozilla", "events", "community"]
 ---
 
 It was June 25th morning and I was genuinely nervous. How will it go? Will the audience actively participate? Will they enjoy it?

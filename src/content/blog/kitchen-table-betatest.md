@@ -3,6 +3,7 @@ title: "Kitchen Table Betatest"
 date: 2012-05-28
 category: "Event"
 description: "Hosted a small kitchen table event — 5 people, 45 minutes, X-ray Goggles, and two kids who are now hooked on remixing websites."
+tags: ["mozilla", "events", "community"]
 ---
 
 I hosted a small kitchen table event called 'Hack it!' and it was just awesome. Simple and yet more productive than you'd expect. We were 5 people including two children under 15.

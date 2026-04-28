@@ -3,6 +3,7 @@ title: "Firefox Launch Party, India"
 date: 2014-05-13
 category: "Event"
 description: "Recap of the Firefox launch party events across India — energy, community, and a whole lot of orange."
+tags: ["mozilla", "events", "community"]
 ---
 
 Launch parties are special. There's something about gathering people around a shared moment — a software release — that brings out the best in the Mozilla community.

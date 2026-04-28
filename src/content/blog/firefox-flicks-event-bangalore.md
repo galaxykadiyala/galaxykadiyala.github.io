@@ -3,6 +3,7 @@ title: "Firefox Flicks Event — Bangalore"
 date: 2012-04-17
 category: "Event"
 description: "A Firefox Flicks screening event in Bangalore — filmmakers, animators, and creative folks gathering over drinks to talk about the contest."
+tags: ["mozilla", "events", "community"]
 ---
 
 We had a [Firefox Flicks](http://firefoxflicks.org/) screening event in Bangalore on Sunday the 15th April. A lot of people are excited about Flicks — it really gets the creativity out of people.

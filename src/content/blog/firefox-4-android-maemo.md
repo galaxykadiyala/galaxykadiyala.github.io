@@ -3,6 +3,7 @@ title: "Firefox 4 Released for Android & Maemo!"
 date: 2011-05-15
 category: "Mozilla"
 description: "Firefox 4 is now available on Android and Maemo — the open web finally has a real mobile browser."
+tags: ["mozilla", "open-source", "community"]
 ---
 
 Big news — Firefox 4 is now available for Android and Maemo!

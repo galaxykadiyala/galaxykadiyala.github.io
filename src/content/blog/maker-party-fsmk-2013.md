@@ -3,6 +3,7 @@ title: "Maker Party — FSMK Summer Camp"
 date: 2013-08-10
 category: "Event"
 description: "Mozilla Webmaker at FSMK's 9-day summer camp in Bangalore — hands-on hacking, X-ray Goggles, and a full day dedicated to making the web."
+tags: ["mozilla", "events", "community"]
 ---
 
 The Maker Party event at FSMK Summer Camp Bangalore was just amazing!

@@ -2,7 +2,8 @@
 title: "Self-hosting Mozilla Thunderbolt on a Mac Mini: an honest walkthrough"
 description: "Mozilla shipped a self-hostable AI client. I tried to run it on my Mac Mini. Here's everything that broke, and why I still think it matters."
 date: 2026-04-22T14:42:06.369Z
-tags: [mozilla, thunderbolt, ai, self-hosting, mac]
+category: "Mozilla"
+tags: ["mozilla", "ai", "infrastructure", "open-source"]
 draft: false
 ---
 

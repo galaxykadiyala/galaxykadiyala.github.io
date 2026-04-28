@@ -3,6 +3,7 @@ title: "Mozilla Webmaker & Summer Code Party"
 date: 2012-06-09
 category: "Mozilla"
 description: "Mozilla's new Webmaker initiative launches alongside the Summer Code Party — an open invitation to meet, make, and learn the web."
+tags: ["mozilla", "community", "open-source"]
 ---
 
 Mozilla announced its new [Webmaker](https://webmaker.org/) initiative and it's something special.
