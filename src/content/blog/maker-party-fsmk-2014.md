@@ -3,6 +3,7 @@ title: "Maker Party Bangalore — FSMK Summer Camp '14"
 date: 2014-07-22
 category: "Event"
 description: "Mozilla Webmaker comes to FSMK's annual summer camp in Bangalore — 100+ makes in just 3 hours."
+tags: ["mozilla", "events", "community"]
 ---
 
 Every year [FSMK](http://fsmk.org) organizes a 9 day summer camp in Bangalore. Students from different colleges all over Karnataka join to learn, create, and collaborate.

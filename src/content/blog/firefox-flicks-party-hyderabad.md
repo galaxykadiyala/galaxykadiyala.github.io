@@ -3,6 +3,7 @@ title: "Firefox Flicks Party — Hyderabad"
 date: 2012-05-25
 category: "Event"
 description: "Firefox Flicks '12 has wrapped and the results are in — come celebrate at News Cafe Hyderabad with winning videos, music, and a special guest."
+tags: ["mozilla", "events", "community"]
 ---
 
 It's party time!

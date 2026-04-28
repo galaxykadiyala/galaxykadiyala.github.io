@@ -3,6 +3,7 @@ title: "MozCoffee Bangalore v4.0"
 date: 2014-02-21
 category: "Event"
 description: "After three quiet meetups, MozCoffee v4 finally had Mozillians show up — coffee, Firefox OS, and good conversations at Matteo Coffee."
+tags: ["mozilla", "community", "events"]
 ---
 
 MozCoffee v4.0 was held on Feb 16, 2014 at Matteo Coffee, Bangalore.

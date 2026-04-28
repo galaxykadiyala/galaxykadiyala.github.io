@@ -1,8 +1,9 @@
 ---
 title: "2014 in a Nutshell"
 date: 2015-03-10
-category: "Recap"
+category: "Mozilla"
 description: "A look back at everything that happened in 2014 — community events, Mozilla milestones, and personal highlights."
+tags: ["mozilla", "community", "events", "personal"]
 ---
 
 2014 was a packed year. Between Firefox OS app days, Mozilla community meetups, and a whole lot of travel, here's a quick recap of what went down.

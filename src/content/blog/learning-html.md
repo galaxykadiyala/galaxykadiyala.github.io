@@ -1,8 +1,9 @@
 ---
 title: "Learning HTML"
 date: 2013-10-31
-category: "Web"
+category: "Mozilla"
 description: "A snapshot from a web literacy workshop — kids learning HTML for the first time."
+tags: ["mozilla", "community", "events"]
 ---
 
 Sometimes a picture says it all. This was taken at one of our web literacy workshops — kids discovering HTML for the first time, realizing they can actually *make* things on the web and not just consume them.

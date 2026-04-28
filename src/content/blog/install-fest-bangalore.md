@@ -3,6 +3,7 @@ title: "Install Fest Bangalore — Student Rep!"
 date: 2012-07-20
 category: "Event"
 description: "One of our Mozilla Student Reps, Vijesh from NMIMS Bangalore, updated every machine in his college lab to the latest Firefox."
+tags: ["mozilla", "community", "open-source"]
 ---
 
 One of our Mozilla Student Reps, Vijesh from NMIMS Bangalore, did an install fest at his college and updated all the machines to the latest Firefox browser!

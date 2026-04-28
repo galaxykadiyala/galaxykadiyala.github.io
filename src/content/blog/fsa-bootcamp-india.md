@@ -3,6 +3,7 @@ title: "FSA Bootcamp India"
 date: 2015-02-17
 category: "Mozilla"
 description: "50 Firefox Student Ambassadors from across India gathered at Mozilla Community Space Bangalore for the biggest FSA-focused event in India."
+tags: ["mozilla", "community", "events"]
 ---
 
 This is a pilot event and there will be more such trainings in the future!

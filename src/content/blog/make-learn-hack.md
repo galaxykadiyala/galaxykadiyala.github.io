@@ -3,6 +3,7 @@ title: "Make, Learn & Hack"
 date: 2013-03-26
 category: "Mozilla"
 description: "Mozilla Webmaker Reps Training Days in Athens, Greece — 40 Reps from around the world, and teaching kids to hack the web at the British Council."
+tags: ["mozilla", "community", "events"]
 ---
 
 *"Make something amazing with the Web!"*

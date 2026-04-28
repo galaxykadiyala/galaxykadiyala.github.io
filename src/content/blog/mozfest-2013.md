@@ -3,6 +3,7 @@ title: "Mozilla Festival 2013 — Create, Learn, Share"
 date: 2013-12-01
 category: "Mozilla"
 description: "My experience at MozFest 2013 in London — three days of the open web's most passionate people."
+tags: ["mozilla", "events", "community", "open-source"]
 ---
 
 MozFest is unlike any other conference. It's participatory, chaotic, and inspiring in equal measure. Three floors of sessions, workshops, and hallway conversations that blur together into one sustained high.

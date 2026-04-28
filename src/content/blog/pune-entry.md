@@ -3,6 +3,7 @@ title: "Pune Entry"
 date: 2011-07-29
 category: "Personal"
 description: "Moving to Pune for college — an overnight bus, a Sunday morning, and a very optimistic auto driver."
+tags: ["personal"]
 ---
 
 It's been a while since I actually wrote about myself. So, thought I'd write about my college life beginning.
