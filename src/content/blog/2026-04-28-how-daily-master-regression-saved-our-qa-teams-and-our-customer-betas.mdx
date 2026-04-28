@@ -1,0 +1,129 @@
+---
+title: "How daily master regression saved our QA teams (and our customer betas)"
+description: "A 15-person regression team, a broken integration branch, and the quality gate that fixed both."
+date: 2026-04-28
+tags: ["tpm", "systems", "qa", "release-engineering", "nutanix"]
+---
+
+The fastest way to kill QA morale is this: a team spends a week on regression, finds three bugs that should've been caught upstream, and has to re-run the whole suite on a new build. Repeat weekly. Burnout is a matter of when, not if.
+
+When I took over a 15-person regression team at Nutanix, this was roughly the state of things. We were good at running tests. We were terrible at making sure the build we were testing was worth testing. This is how we fixed that, and how the fix ended up being useful for customer betas too.
+
+## The problem on day one
+
+The default rhythm looked like this: the team ran patches during the week, and then had stretches where the schedule was bizarrely empty. Not because there was no work, but because the work depended on a master build that was in good enough shape to regress, and master was frequently broken.
+
+When master *was* regressable, the team would find blocker bugs in week-old code, bugs that had snuck past pre-check runs. We'd file, triage, wait for fixes, then run the suite again on a new build. The loop was slow, and worse, it was demoralizing. The team was discovering problems that the commit-level gate should have caught.
+
+The diagnosis was straightforward: **pre-check runs weren't catching enough**, and we had no quality gate between pre-check and full regression. Every broken master was a regression team outage.
+
+## The system we built
+
+We inserted a new layer: a daily P0 regression run on the latest master build, the outcome of which became a published signal other teams could trust.
+
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" overflow="visible" style="width: 100%; max-width: 100%; margin: 2rem 0; display: block; overflow: visible; font-family: 'JetBrains Mono', ui-monospace, monospace;" role="img" aria-label="Pipeline diagram: commit goes through pre-check tests, merges to master, daily P0 run evaluates quality index; if 90% or higher the build is tagged 24h master-verified and used downstream by QA regression and customer beta programs">
+  <rect x="20" y="130" width="110" height="50" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="75" y="150" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">COMMIT</text>
+  <text x="75" y="165" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.6">PR opened</text>
+
+  <line x1="130" y1="155" x2="160" y2="155" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <polygon points="160,155 154,151 154,159" fill="currentColor" opacity="0.5"/>
+
+  <rect x="160" y="130" width="110" height="50" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="215" y="150" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">PRE-CHECK</text>
+  <text x="215" y="165" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.6">fast, narrow</text>
+
+  <line x1="270" y1="155" x2="300" y2="155" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <polygon points="300,155 294,151 294,159" fill="currentColor" opacity="0.5"/>
+
+  <rect x="300" y="130" width="110" height="50" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="355" y="150" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">MERGE</text>
+  <text x="355" y="165" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.6">master branch</text>
+
+  <line x1="410" y1="155" x2="440" y2="155" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <polygon points="440,155 434,151 434,159" fill="currentColor" opacity="0.5"/>
+
+  <rect x="440" y="115" width="130" height="80" rx="4" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1.5"/>
+  <text x="505" y="138" text-anchor="middle" font-size="11" fill="#d85a30" font-weight="600">DAILY P0 RUN</text>
+  <text x="505" y="153" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.8">all features</text>
+  <text x="505" y="168" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.8">on latest master</text>
+  <text x="505" y="185" text-anchor="middle" font-size="8" fill="#d85a30" font-weight="600" letter-spacing="0.04em">NEW LAYER</text>
+
+  <line x1="570" y1="155" x2="605" y2="155" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <polygon points="605,155 599,151 599,159" fill="currentColor" opacity="0.5"/>
+
+  <polygon points="660,120 710,155 660,190 610,155" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <text x="660" y="150" text-anchor="middle" font-size="10" fill="currentColor" font-weight="600">QI ≥ 90%</text>
+  <text x="660" y="165" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.6">?</text>
+
+  <line x1="660" y1="190" x2="660" y2="230" stroke="#d85a30" stroke-width="1.5"/>
+  <text x="670" y="215" font-size="9" fill="#d85a30" font-weight="600">YES</text>
+  <polygon points="660,230 656,224 664,224" fill="#d85a30"/>
+
+  <rect x="555" y="235" width="210" height="50" rx="4" fill="#d85a30" fill-opacity="0.15" stroke="#d85a30" stroke-width="1.5"/>
+  <text x="660" y="257" text-anchor="middle" font-size="11" fill="#d85a30" font-weight="600">TAGGED: 24H VERIFIED</text>
+  <text x="660" y="273" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.8">safe for regression + beta</text>
+
+  <line x1="610" y1="155" x2="500" y2="155" stroke="currentColor" stroke-width="1" opacity="0" />
+  <path d="M 610 155 Q 500 85 400 85 L 230 85" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4" stroke-dasharray="3,3"/>
+  <polygon points="230,85 236,81 236,89" fill="currentColor" opacity="0.4"/>
+  <text x="450" y="75" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.6">NO → file bugs, fix, next day's run tries again</text>
+
+  <text x="380" y="325" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.5" letter-spacing="0.04em">QI = QUALITY INDEX · RATIO OF PASSING P0 TESTS ON LATEST MASTER</text>
+</svg>
+
+The mechanics were simple on paper:
+
+1. Every day, pick the latest master build.
+2. Run the P0 suite across all features on it.
+3. Calculate the Quality Index (QI), the percentage of P0 tests that passed.
+4. If QI was **90% or higher**, tag the build as `24h-master-verified`.
+5. That tagged build became the build regression teams picked up, and later, the build customer beta programs drew from.
+
+Four things made this actually work.
+
+**It ran daily, on a cadence.** Not "when someone gets around to it." Daily runs created a rhythm. Every morning, teams knew whether yesterday's master was worth building on.
+
+**It had a clear numerical gate.** 90% QI. Not "looks good to me." A number either hit the bar or it didn't, and the number was published. No debate, no politics.
+
+**It ran the full P0 suite across all features, not just the area a PR touched.** This was the critical difference from pre-check. Pre-check was narrow and fast. The 24h run was wide and slow. Each caught different things.
+
+**It produced an artifact teams could use.** The tagged build was the unit of coordination. "Grab the latest 24h-verified build" replaced "ask around to find out if master is stable today."
+
+## What changed
+
+Three things shifted within a couple of quarters:
+
+**Blockers got caught one layer earlier.** Bugs that would have blocked a week of regression now got caught within 24 hours of merge. The regression team stopped finding environment-level breakage and started finding the actual edge cases they were supposed to find.
+
+**The QA calendar started working.** Teams could plan. If a build was verified, regression started on it. If not, the day's work was triage, not a half-hearted attempt on a build nobody trusted. The bizarre empty stretches disappeared, because "no verified build" became a legitimate, visible status instead of an invisible gap.
+
+**Cross-team trust went up.** Other QA teams started asking about the verified build. That's when I knew it was working, not because we measured it, but because people started treating the tag as an authority.
+
+## The unexpected second-order win: customer betas
+
+Here's the part I didn't plan.
+
+When product started running customer beta programs, release engineering needed to pick a build that was stable enough to send out. The old process was a weeks-long curation: pick a candidate, test it, find issues, pick a new candidate, repeat.
+
+We realized the 24h-verified stream was already doing most of this work. A build tagged `24h-verified` had passed a broad P0 suite on recent master, every day, across all features. It was, by construction, one of the more stable recent builds.
+
+Beta programs started drawing directly from the verified stream. The curation window shrank from weeks to days. Customer-facing beta stability improved because the input was pre-filtered.
+
+That was the second-order payoff, and arguably the bigger one. We'd built a quality gate for an internal audience (regression teams) and accidentally built a customer-facing pipeline too.
+
+## What I took from this project
+
+**Adding a layer beats tightening a layer.** Everyone's first instinct was "make pre-check stricter." That would've slowed every PR. Instead, adding a daily layer *after* merge caught things pre-check was structurally bad at catching (cross-feature interactions, long-running scenarios, feature combinations). Layers in series cover more than any single layer tuned harder.
+
+**Numerical gates beat subjective gates.** QI ≥ 90% is unambiguous. "Build looks okay" is a conversation. Anywhere you can replace a conversation with a number, you reduce coordination cost, and coordination cost is most of what a TPM is paid to reduce.
+
+**Publish the tag. Let other teams opt in.** We didn't mandate that regression use the verified build, we just produced it and made it visible. Teams picked it up because it was useful. The beta program picked it up because it was useful. A system that people adopt voluntarily is worth ten that have to be mandated.
+
+**Build systems for the audience you know. Bigger audiences find you.** We designed this for the 15-person regression team. It ended up serving customer beta programs too. I didn't see that coming. But the common pattern was "we need a stable recent build," and once a reliable stream of those existed, every downstream consumer of "stable recent build" was a potential user.
+
+## Postscript
+
+The cost-per-test improvement from [nested clusters](/blog/2026-04-25-how-we-4xd-our-qa-capacity-at-nutanix) and the reliability improvement from the 24h pipeline compounded. Faster tests running on fresher infrastructure, feeding a daily quality signal that downstream teams trusted. Neither was a heroic effort. Both were just layers in a larger system, which is the only way this kind of work scales.
+
+<p style="font-size: 0.875rem; opacity: 0.6; margin-top: 3rem; font-family: 'JetBrains Mono', ui-monospace, monospace;">// Engineering Manager / TPM at Nutanix, 2021–2024. Led the 15-person regression team.</p>
