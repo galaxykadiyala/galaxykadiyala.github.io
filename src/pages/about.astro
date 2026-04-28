@@ -18,11 +18,11 @@ import WorldMap from '../components/WorldMap.astro';
           </h1>
           <p class="about-tagline">Most work fails at execution. I fix that.</p>
           <div class="about-accent-block">
-            <span class="tag red">Technical Program Manager</span>
-            <span class="tag blue">Systems Thinking</span>
-            <span class="tag green">AI &amp; Infra</span>
-            <span class="tag orange">2&times; US Patents</span>
-            <span class="tag">Mozilla</span>
+            <span class="tag coral">Technical Program Manager</span>
+            <span class="tag coral">Systems Thinking</span>
+            <span class="tag coral">AI &amp; Infra</span>
+            <span class="tag coral">2&times; US Patents</span>
+            <span class="tag coral">Mozilla</span>
           </div>
         </div>
 
@@ -55,6 +55,30 @@ import WorldMap from '../components/WorldMap.astro';
 
       </div>
 
+    </div>
+  </section>
+
+  <section class="metrics-section">
+    <div class="container">
+      <p class="metrics-eyebrow">By the numbers</p>
+      <div class="metrics-grid" aria-label="Credibility metrics">
+        <div class="metric-tile">
+          <p class="metric-number">15+</p>
+          <p class="metric-label">years as a Technical Program Manager</p>
+        </div>
+        <div class="metric-tile">
+          <p class="metric-number">2</p>
+          <p class="metric-label">US patents in distributed systems</p>
+        </div>
+        <div class="metric-tile">
+          <p class="metric-number">10,000+</p>
+          <p class="metric-label">students engaged through Mozilla community work</p>
+        </div>
+        <div class="metric-tile">
+          <p class="metric-number">7d → 24h</p>
+          <p class="metric-label">release cycle compression on production CI/CD</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -121,10 +145,84 @@ import WorldMap from '../components/WorldMap.astro';
 }
 
 
+/* ── Coral pill ───────────────────────────────── */
+.tag.coral {
+  background: rgba(216, 90, 48, 0.12);
+  border-color: rgba(216, 90, 48, 0.4);
+  color: #d85a30;
+}
+
+:global([data-theme="dark"]) .tag.coral {
+  background: rgba(255, 107, 74, 0.15);
+  border-color: rgba(255, 107, 74, 0.4);
+  color: #ff6b4a;
+}
+
+/* ── Metrics ──────────────────────────────────── */
+.metrics-section {
+  padding: 3rem 0 3.5rem;
+}
+
+.metrics-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--fg-2);
+  margin-bottom: 1.5rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.metric-tile {
+  background: var(--paper-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.metric-number {
+  font-family: var(--sans);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #d85a30;
+}
+
+.metric-label {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--fg-2);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+
+@media (max-width: 1024px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Responsive ───────────────────────────────── */
 @media (max-width: 768px) {
   .about-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
