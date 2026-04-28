@@ -21,3 +21,6 @@ npm-debug.log*
 
 # Generated OG images
 public/og/
+
+# Local distribution drafts (LinkedIn/newsletter templates, not for version control)
+distribution/
