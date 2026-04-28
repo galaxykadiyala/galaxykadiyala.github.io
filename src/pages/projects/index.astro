@@ -6,19 +6,11 @@ const projects = (await getCollection('projects')).sort(
   (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
 );
 
-const statusColors: Record<string, string> = {
-  active:   'green',
-  shipped:  'blue',
-  archived: 'red',
-};
-
 const categoryLabel: Record<string, string> = {
   professional: 'Professional',
   personal:     'Personal',
   community:    'Community',
 };
-
-const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
 ---
 
 <BaseLayout title="Projects" description="Programs Galaxy Kadiyala has shipped, systems built, and communities been part of.">
@@ -41,9 +33,7 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
             <div class="project-card-top">
               <div class="project-year">{project.data.year}</div>
               <div class="project-badges">
-                <span class={`tag ${statusColors[project.data.status]}`}>
-                  {project.data.status}
-                </span>
+                <span class="tag coral">{project.data.status}</span>
                 <span class="tag">{categoryLabel[project.data.category]}</span>
               </div>
             </div>
@@ -58,8 +48,8 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
 
             {project.data.techStack && (
               <div class="project-tags">
-                {project.data.techStack.map((tag, j) => (
-                  <span class={`tag ${tagColorList[(i + j) % tagColorList.length]}`}>{tag}</span>
+                {project.data.techStack.map(tag => (
+                  <span class="tag coral">{tag}</span>
                 ))}
               </div>
             )}

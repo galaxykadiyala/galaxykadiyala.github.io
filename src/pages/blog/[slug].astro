@@ -21,7 +21,7 @@ const { Content } = await post.render();
 
       <header class="post-header">
         <div class="post-meta">
-          <span class="tag red">{post.data.category || 'Blog'}</span>
+          <span class="tag coral">{post.data.category || 'Blog'}</span>
           <time class="post-date">
             {post.data.date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
           </time>
@@ -105,17 +105,21 @@ const { Content } = await post.render();
   font-size: 0.72rem;
   padding: 0.25em 0.7em;
   border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.12);
-  color: var(--ink);
-  opacity: 0.5;
+  background: rgba(216, 90, 48, 0.12);
+  border: 1px solid rgba(216, 90, 48, 0.4);
+  color: #d85a30;
   text-decoration: none;
-  transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .post-tag:hover {
-  opacity: 1;
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
+}
+[data-theme="dark"] .post-tag {
+  background: rgba(255, 107, 74, 0.15);
+  border-color: rgba(255, 107, 74, 0.4);
+  color: #ff6b4a;
 }
 
 .post-content {

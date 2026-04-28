@@ -114,11 +114,17 @@ img { max-width: 100%; display: block; }
   color: var(--fg-2);
 }
 
-.tag.red    { background: var(--accent-1); color: #fff; border-color: var(--accent-1); }
-.tag.yellow { background: var(--accent-2); color: #111; border-color: var(--accent-2); }
-.tag.green  { background: var(--accent-3); color: #fff; border-color: var(--accent-3); }
-.tag.blue   { background: var(--accent-4); color: #fff; border-color: var(--accent-4); }
-.tag.orange { background: var(--accent-5); color: #fff; border-color: var(--accent-5); }
+.tag.coral {
+  background: rgba(216, 90, 48, 0.12);
+  border-color: rgba(216, 90, 48, 0.4);
+  color: #d85a30;
+}
+
+[data-theme="dark"] .tag.coral {
+  background: rgba(255, 107, 74, 0.15);
+  border-color: rgba(255, 107, 74, 0.4);
+  color: #ff6b4a;
+}
 
 /* ── Button ───────────────────────────────────────── */
 .btn {

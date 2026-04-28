@@ -13,8 +13,6 @@ for (const post of allPosts) {
 
 const tags = [...tagMap.entries()].sort((a, b) => b[1] - a[1]);
 
-const accentColors = ['red', 'yellow', 'green', 'blue', 'orange'];
-
 function sizeClass(count: number): string {
   if (count >= 15) return 'xl';
   if (count >= 8) return 'lg';
@@ -38,7 +36,7 @@ function sizeClass(count: number): string {
         {tags.map(([tag, count], i) => (
           <a
             href={`/blog/tags/${tag}`}
-            class={`tag-pill size-${sizeClass(count)} accent-${accentColors[i % accentColors.length]}`}
+            class={`tag-pill size-${sizeClass(count)}`}
           >
             {tag}<span class="tag-count">({count})</span>
           </a>
@@ -108,12 +106,17 @@ function sizeClass(count: number): string {
 .tag-pill.size-lg { font-size: 1.1rem; }
 .tag-pill.size-xl { font-size: 1.3rem; }
 
-/* Accent color tints — hardcoded rgba to match global.css accent values */
-.tag-pill.accent-red    { background: rgba(229, 57, 53, 0.10);   color: var(--accent-1); }
-.tag-pill.accent-yellow { background: rgba(249, 168, 37, 0.14);  color: #b07800; }
-.tag-pill.accent-green  { background: rgba(0, 137, 123, 0.10);   color: var(--accent-3); }
-.tag-pill.accent-blue   { background: rgba(30, 64, 175, 0.10);   color: var(--accent-4); }
-.tag-pill.accent-orange { background: rgba(234, 88, 12, 0.10);   color: var(--accent-5); }
+/* Coral treatment — matches site-wide pill system */
+.tag-pill {
+  background: rgba(216, 90, 48, 0.12);
+  border: 1px solid rgba(216, 90, 48, 0.4);
+  color: #d85a30;
+}
+[data-theme="dark"] .tag-pill {
+  background: rgba(255, 107, 74, 0.15);
+  border-color: rgba(255, 107, 74, 0.4);
+  color: #ff6b4a;
+}
 
 .tag-count {
   font-size: 0.75em;

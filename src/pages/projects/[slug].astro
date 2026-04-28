@@ -13,19 +13,11 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-const statusColors: Record<string, string> = {
-  active:   'green',
-  shipped:  'blue',
-  archived: 'red',
-};
-
 const categoryLabel: Record<string, string> = {
   professional: 'Professional',
   personal:     'Personal',
   community:    'Community',
 };
-
-const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
 ---
 
 <BaseLayout title={project.data.title} description={project.data.summary}>
@@ -34,7 +26,7 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
 
       <header class="project-header">
         <div class="project-meta">
-          <span class={`tag ${statusColors[project.data.status]}`}>{project.data.status}</span>
+          <span class="tag coral">{project.data.status}</span>
           <span class="tag">{categoryLabel[project.data.category]}</span>
           <time class="project-year">{project.data.year}</time>
         </div>
@@ -42,8 +34,8 @@ const tagColorList = ['blue', 'orange', 'green', 'red', 'yellow'];
         <p class="project-summary">{project.data.summary}</p>
         {project.data.techStack && (
           <div class="project-stack">
-            {project.data.techStack.map((tag, i) => (
-              <span class={`tag ${tagColorList[i % tagColorList.length]}`}>{tag}</span>
+            {project.data.techStack.map(tag => (
+              <span class="tag coral">{tag}</span>
             ))}
           </div>
         )}
