@@ -67,6 +67,38 @@ That already overflows the day by half an hour, which is itself a finding. But e
 
 So something is taking time that I don't have a column for.
 
+<svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 100%; margin: 2rem 0; display: block; overflow: visible; font-family: 'JetBrains Mono', ui-monospace, monospace;" overflow="visible" role="img" aria-label="Comparison of accounted-for hours versus actual day: 3.5 hours testing, 3 hours setup, 1 hour bug filing, all accounted for, but there is a missing block of time the team reports needing that the spreadsheet does not show">
+  <text x="360" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor" letter-spacing="0.08em">WHAT I CAN ACCOUNT FOR · AND WHAT I CAN'T</text>
+
+  <text x="40" y="80" font-size="10" fill="currentColor" opacity="0.7" letter-spacing="0.04em">ACCOUNTED FOR</text>
+
+  <rect x="40" y="92" width="180" height="38" rx="4" fill="#d85a30" fill-opacity="0.18" stroke="#d85a30" stroke-width="1"/>
+  <text x="130" y="110" text-anchor="middle" font-size="10" fill="currentColor" font-weight="600">TESTING</text>
+  <text x="130" y="123" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">3.5h</text>
+
+  <rect x="230" y="92" width="155" height="38" rx="4" fill="#d85a30" fill-opacity="0.12" stroke="#d85a30" stroke-width="1"/>
+  <text x="307" y="110" text-anchor="middle" font-size="10" fill="currentColor" font-weight="600">SETUP</text>
+  <text x="307" y="123" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">3h</text>
+
+  <rect x="395" y="92" width="60" height="38" rx="4" fill="#d85a30" fill-opacity="0.06" stroke="#d85a30" stroke-width="1"/>
+  <text x="425" y="110" text-anchor="middle" font-size="9" fill="currentColor" font-weight="600">BUGS</text>
+  <text x="425" y="123" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">1h</text>
+
+  <text x="466" y="115" font-size="14" fill="currentColor" opacity="0.4">+</text>
+
+  <text x="500" y="80" font-size="10" fill="#d85a30" opacity="0.9" font-weight="600" letter-spacing="0.04em">NOT ACCOUNTED FOR</text>
+
+  <rect x="500" y="92" width="180" height="38" rx="4" fill="none" stroke="#d85a30" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="590" y="110" text-anchor="middle" font-size="14" fill="#d85a30" font-weight="700">?</text>
+  <text x="590" y="123" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">1-2h, but where?</text>
+
+  <text x="40" y="170" font-size="10" fill="currentColor" opacity="0.6">on the spreadsheet</text>
+  <text x="40" y="184" font-size="11" fill="currentColor" font-weight="600">7.5 hours</text>
+
+  <text x="680" y="170" text-anchor="end" font-size="10" fill="currentColor" opacity="0.6">what the day actually takes</text>
+  <text x="680" y="184" text-anchor="end" font-size="11" fill="#d85a30" font-weight="600">8+ hours</text>
+</svg>
+
 ## What I tried that didn't work
 
 **I asked for hour-by-hour activity logs.** A few testers tried it. The data came back fragmented and inconsistent. Some hours were "testing." Some were "blocked." Some were "investigating issue." The granularity wasn't fine enough to expose the missing time, and asking for finer granularity started feeling like surveillance, which is not the relationship I want with the team.
@@ -78,6 +110,38 @@ So something is taking time that I don't have a column for.
 ## What I think is actually happening (without proof)
 
 A few hypotheses I'm holding loosely.
+
+<svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 100%; margin: 2rem 0; display: block; overflow: visible; font-family: 'JetBrains Mono', ui-monospace, monospace;" overflow="visible" role="img" aria-label="Four hypotheses for the missing time, in a 2 by 2 grid: optimistic test case estimates, context switching tax, communication overhead, and the difference between system slow and system broken">
+  <text x="360" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor" letter-spacing="0.08em">FOUR HYPOTHESES FOR THE MISSING TIME</text>
+
+  <rect x="40" y="60" width="320" height="110" rx="4" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <text x="56" y="84" font-size="9" fill="#d85a30" font-weight="600" letter-spacing="0.06em">HYPOTHESIS 1</text>
+  <text x="56" y="106" font-size="12" fill="currentColor" font-weight="700">Estimates are optimistic</text>
+  <text x="56" y="128" font-size="10" fill="currentColor" opacity="0.7">A 0.5h test case has unspoken cost:</text>
+  <text x="56" y="142" font-size="10" fill="currentColor" opacity="0.7">re-reading the spec, recalling setup,</text>
+  <text x="56" y="156" font-size="10" fill="currentColor" opacity="0.7">one unexpected popup, a retry. Invisible.</text>
+
+  <rect x="380" y="60" width="320" height="110" rx="4" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <text x="396" y="84" font-size="9" fill="#d85a30" font-weight="600" letter-spacing="0.06em">HYPOTHESIS 2</text>
+  <text x="396" y="106" font-size="12" fill="currentColor" font-weight="700">Context switching compounds</text>
+  <text x="396" y="128" font-size="10" fill="currentColor" opacity="0.7">A tester running 3-4 features pays a</text>
+  <text x="396" y="142" font-size="10" fill="currentColor" opacity="0.7">context-reload tax each switch. The</text>
+  <text x="396" y="156" font-size="10" fill="currentColor" opacity="0.7">estimate assumes one thing all day.</text>
+
+  <rect x="40" y="190" width="320" height="110" rx="4" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <text x="56" y="214" font-size="9" fill="#d85a30" font-weight="600" letter-spacing="0.06em">HYPOTHESIS 3</text>
+  <text x="56" y="236" font-size="12" fill="currentColor" font-weight="700">Communication is bigger than I think</text>
+  <text x="56" y="258" font-size="10" fill="currentColor" opacity="0.7">Clarifying questions, waiting for answers,</text>
+  <text x="56" y="272" font-size="10" fill="currentColor" opacity="0.7">Slack threads, checking related bugs.</text>
+  <text x="56" y="286" font-size="10" fill="currentColor" opacity="0.7">None of it lives in the test estimate.</text>
+
+  <rect x="380" y="190" width="320" height="110" rx="4" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+  <text x="396" y="214" font-size="9" fill="#d85a30" font-weight="600" letter-spacing="0.06em">HYPOTHESIS 4</text>
+  <text x="396" y="236" font-size="12" fill="currentColor" font-weight="700">"Slow" and "broken" are different</text>
+  <text x="396" y="258" font-size="10" fill="currentColor" opacity="0.7">Broken gets filed in 15 minutes. Slow</text>
+  <text x="396" y="272" font-size="10" fill="currentColor" opacity="0.7">means working around it, all day. The</text>
+  <text x="396" y="286" font-size="10" fill="currentColor" opacity="0.7">second one never gets logged.</text>
+</svg>
 
 **Test case estimates are systematically optimistic.** The 0.5-hour test case has unspoken cost: reading the spec one more time, recalling the right setup, dealing with one unexpected popup, retrying once because something didn't load. None of that is in the estimate. It's not padding by the tester. It's invisible work the tester doesn't think to count.
 
