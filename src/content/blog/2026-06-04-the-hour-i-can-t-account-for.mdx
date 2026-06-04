@@ -1,0 +1,119 @@
+---
+title: "The hour I can't account for"
+description: "The math fits in 8 hours. The day doesn't. I'm still figuring out why."
+date: 2026-05-16
+tags: ["tpm", "qa", "open-question", "team-management"]
+---
+
+I'm writing this one without an answer. That's the point.
+
+I've been managing a UI testing team for a few months now at an enterprise data security and cloud management company. Mix of manual and automation testers. Around 10 people on the manual side. The team is good. They care about the work. They flag issues honestly. And yet, for months, I've been stuck on a problem I cannot crack.
+
+The math says the work fits in a day. The team says it doesn't. We're both right, somehow, and I can't figure out where the gap actually lives.
+
+If you've solved this, I want to hear it. Here's where I am.
+
+## The numbers, as I have them
+
+When a new feature lands for testing, we do a knowledge transfer, the team estimates effort per test case in fractions of an hour (0.1, 0.5, 1.5, etc.), and we add it up.
+
+A representative load: 100 features in scope, 500 test cases, total estimated effort around 35 hours.
+
+Across 10 testers, that's **3.5 hours of testing per person.**
+
+Against an 8-hour working day, that should leave roughly 4.5 hours for everything else. Setup, bug filing, communication, debugging. The team says it's not enough. They cannot finish in a day.
+
+So I went looking for the gap.
+
+<svg viewBox="0 0 720 280" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 100%; margin: 2rem 0; display: block; overflow: visible; font-family: 'JetBrains Mono', ui-monospace, monospace;" overflow="visible" role="img" aria-label="Time accounting for an 8-hour working day: 3.5 hours testing, 3 hours setup, 1 hour bug filing, leaving roughly half an hour buffer">
+  <text x="360" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="currentColor" letter-spacing="0.08em">WHAT THE 8-HOUR DAY LOOKS LIKE ON PAPER</text>
+
+  <rect x="60" y="80" width="600" height="50" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+
+  <rect x="60" y="80" width="262" height="50" fill="#d85a30" fill-opacity="0.25" stroke="none"/>
+  <text x="191" y="105" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">TESTING</text>
+  <text x="191" y="120" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">3.5 hours</text>
+
+  <rect x="322" y="80" width="225" height="50" fill="#d85a30" fill-opacity="0.12" stroke="none"/>
+  <text x="434" y="105" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">SETUP</text>
+  <text x="434" y="120" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.7">3 hours</text>
+
+  <rect x="547" y="80" width="75" height="50" fill="#d85a30" fill-opacity="0.06" stroke="none"/>
+  <text x="584" y="105" text-anchor="middle" font-size="9" fill="currentColor" font-weight="600">BUGS</text>
+  <text x="584" y="120" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.7">1 hour</text>
+
+  <rect x="622" y="80" width="38" height="50" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <text x="641" y="105" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.6">BUF</text>
+  <text x="641" y="120" text-anchor="middle" font-size="7" fill="currentColor" opacity="0.6">~0.5h</text>
+
+  <line x1="60" y1="145" x2="60" y2="155" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+  <line x1="660" y1="145" x2="660" y2="155" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+  <text x="60" y="170" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.5">0h</text>
+  <text x="660" y="170" text-anchor="middle" font-size="9" fill="currentColor" opacity="0.5">8h</text>
+
+  <text x="360" y="220" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.7">on paper, the day fits — barely</text>
+  <text x="360" y="240" text-anchor="middle" font-size="10" fill="#d85a30" opacity="0.9" font-weight="600">in practice, the team says it doesn't</text>
+</svg>
+
+## What I checked, what it accounted for
+
+**Setup time.** I asked the team to document it. The numbers came back: roughly **3 hours per day, total**, across environment setup, build deployment, navigating to the right state, login flows, and getting test data ready. Fair. Documented. Real.
+
+**Bug filing.** Each filed bug takes about 15 minutes from observation to a complete entry. The team typically files 4-5 bugs on a heavy day. That's about an hour of pure bug-writing time per person. I gave the buffer 2 hours instead of 1, generously, to absorb context-switching and re-verification of older bugs against new builds.
+
+**Add it up:** 3.5 hours testing + 3 hours setup + 2 hours buffer = 8.5 hours.
+
+That already overflows the day by half an hour, which is itself a finding. But even when I tightened the buffer back to a realistic 1 hour, the team still couldn't finish. The gap between what fits on the spreadsheet and what fits in a real day was bigger than the spreadsheet said.
+
+So something is taking time that I don't have a column for.
+
+## What I tried that didn't work
+
+**I asked for hour-by-hour activity logs.** A few testers tried it. The data came back fragmented and inconsistent. Some hours were "testing." Some were "blocked." Some were "investigating issue." The granularity wasn't fine enough to expose the missing time, and asking for finer granularity started feeling like surveillance, which is not the relationship I want with the team.
+
+**I asked direct questions.** "What's the part that's slow?" The answers were honest but circular. "It just takes time." "The system is slow sometimes." "There are things you don't see in the test case." None of these are wrong. None of them give me a number I can plan around.
+
+**I checked for the obvious systemic things.** Slow build environments, flaky test setups, dependency gates between testers. Some of this exists, but not at the scale that would explain 1-2 missing hours per person per day.
+
+## What I think is actually happening (without proof)
+
+A few hypotheses I'm holding loosely.
+
+**Test case estimates are systematically optimistic.** The 0.5-hour test case has unspoken cost: reading the spec one more time, recalling the right setup, dealing with one unexpected popup, retrying once because something didn't load. None of that is in the estimate. It's not padding by the tester. It's invisible work the tester doesn't think to count.
+
+**Context switching across features compounds.** A tester running tests across 3-4 features in a day pays a context-reload tax each time they switch. The estimate assumes they're on one thing all day, which is rarely true.
+
+**Communication is bigger than I'm accounting for.** Clarifying questions to product or dev, waiting for answers, jumping into a Slack thread, checking a related bug in another tracker. None of this shows up in a "test case estimate" but it's real time.
+
+**The system being slow is actually two problems, not one.** Sometimes it's slow. Sometimes it's broken. Filing a bug for the slowness takes 15 minutes. Working around the slowness while continuing to test costs, but doesn't get filed. The latter is invisible.
+
+I think most of this is true, mostly. But "mostly" doesn't get me to a number, and a TPM without a number is just expressing a feeling.
+
+## What I'm trying next
+
+The next thing I'm planning to do is **learn a feature set well enough to test it myself.** Not to replace the team. Not to audit them. To actually feel where the time goes. Where the small unestimated frictions live. Where a "0.5-hour test case" actually clocks in at 0.7 because of something nobody flags as worth documenting.
+
+The TPM-and-the-team gap is partly an information gap. I'm trying to close it by becoming, briefly, the kind of person who has the information.
+
+I don't know if it'll work. It might just confirm what the team has been telling me all along.
+
+## What I want to ask other TPMs and team leads
+
+If you've solved this kind of problem, where the math works on paper but the team consistently can't finish in the time the math allows, I'd genuinely like to hear how. Some specific questions:
+
+- How do you uncover invisible work without making the team feel surveilled?
+- What's a granularity of activity tracking that's useful without being demoralising?
+- Have you ever found that the estimate-per-test-case model is structurally wrong for UI testing? If so, what replaced it?
+- Is there a version of "shadow the team" or "do the work yourself" that worked for you, and what did it actually reveal?
+
+Reach me on the [contact page](/contact) or wherever you find me online. I'll update this post if I learn something worth sharing.
+
+## The thing I keep coming back to
+
+It would be easier to write this post once I've solved it. I'd have a clean arc, a satisfying ending, three lessons in italics.
+
+But I'm publishing it now because the actual TPM job is mostly the part before the answer. Most of what I do is sit with a problem I don't fully understand, run experiments that don't fully resolve it, and try not to mistake activity for progress. Posts that skip that part are useful as case studies, but they're not honest about the work.
+
+This one is honest about the work. The math doesn't add up yet. I'm still looking.
+
+<p style="font-size: 0.875rem; opacity: 0.6; margin-top: 3rem; font-family: 'JetBrains Mono', ui-monospace, monospace;">// TPM at an enterprise data security and cloud management company. Currently chasing a missing hour.</p>
