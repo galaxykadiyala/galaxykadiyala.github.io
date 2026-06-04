@@ -33,7 +33,7 @@ const categoryLabel: Record<string, string> = {
             <div class="project-card-top">
               <div class="project-year">{project.data.year}</div>
               <div class="project-badges">
-                <span class="tag coral">{project.data.status}</span>
+                <span class="project-status">{project.data.status}</span>
                 <span class="tag">{categoryLabel[project.data.category]}</span>
               </div>
             </div>
@@ -48,8 +48,13 @@ const categoryLabel: Record<string, string> = {
 
             {project.data.techStack && (
               <div class="project-tags">
-                {project.data.techStack.map(tag => (
-                  <span class="tag coral">{tag}</span>
+                {project.data.techStack.map((tag, i) => (
+                  <>
+                    <span class="project-tag">{tag}</span>
+                    {i < project.data.techStack.length - 1 && (
+                      <span class="project-tag-sep">/</span>
+                    )}
+                  </>
                 ))}
               </div>
             )}
@@ -138,8 +143,9 @@ const categoryLabel: Record<string, string> = {
 
 .project-badges {
   display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
   justify-content: flex-end;
 }
 
@@ -173,7 +179,33 @@ const categoryLabel: Record<string, string> = {
 .project-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 4px 0;
+  align-items: center;
+}
+.project-status {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d85a30;
+  padding: 0;
+  line-height: 1;
+}
+[data-theme="dark"] .project-status { color: #ff6b4a; }
+.project-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d85a30;
+}
+[data-theme="dark"] .project-tag { color: #ff6b4a; }
+.project-tag-sep {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  margin: 0 8px;
+  opacity: 0.3;
 }
 
 .project-links {

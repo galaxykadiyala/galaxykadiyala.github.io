@@ -44,7 +44,7 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
               <time class="blog-row-date">
                 {blogDateFormatter.format(post.data.date)}
               </time>
-              <span class="tag coral">{post.data.category || 'Blog'}</span>
+              <span class="blog-category">{post.data.category || 'Blog'}</span>
             </div>
             <div class="blog-row-content">
               <h2 class="blog-row-title">
@@ -157,7 +157,7 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
 .blog-row-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 4px 14px;
   margin-top: 0.6rem;
 }
 
@@ -165,26 +165,28 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
   position: relative;
   z-index: 1;
   font-family: var(--mono);
-  font-size: 0.68rem;
-  padding: 0.2em 0.6em;
-  border-radius: 999px;
-  background: rgba(216, 90, 48, 0.12);
-  border: 1px solid rgba(216, 90, 48, 0.4);
+  font-size: 12px;
+  letter-spacing: 0.03em;
   color: #d85a30;
+  background: none;
+  border: none;
+  padding: 0;
   text-decoration: none;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  opacity: 0.7;
+  transition: opacity 0.15s;
 }
-.blog-row-tag:hover,
-.blog-row-tag.active {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+.blog-row-tag:hover { opacity: 1; }
+.blog-row-tag.active { opacity: 1; font-weight: 600; }
+[data-theme="dark"] .blog-row-tag { color: #ff6b4a; }
+
+.blog-category {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d85a30;
 }
-[data-theme="dark"] .blog-row-tag {
-  background: rgba(255, 107, 74, 0.15);
-  border-color: rgba(255, 107, 74, 0.4);
-  color: #ff6b4a;
-}
+[data-theme="dark"] .blog-category { color: #ff6b4a; }
 
 .blog-row-arrow {
   font-family: var(--sans);

@@ -26,7 +26,7 @@ const categoryLabel: Record<string, string> = {
 
       <header class="project-header">
         <div class="project-meta">
-          <span class="tag coral">{project.data.status}</span>
+          <span class="project-status">{project.data.status}</span>
           <span class="tag">{categoryLabel[project.data.category]}</span>
           <time class="project-year">{project.data.year}</time>
         </div>
@@ -34,8 +34,13 @@ const categoryLabel: Record<string, string> = {
         <p class="project-summary">{project.data.summary}</p>
         {project.data.techStack && (
           <div class="project-stack">
-            {project.data.techStack.map(tag => (
-              <span class="tag coral">{tag}</span>
+            {project.data.techStack.map((tag, i) => (
+              <>
+                <span class="project-tag">{tag}</span>
+                {i < project.data.techStack.length - 1 && (
+                  <span class="project-tag-sep">/</span>
+                )}
+              </>
             ))}
           </div>
         )}
@@ -112,8 +117,32 @@ const categoryLabel: Record<string, string> = {
 .project-stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 4px 0;
+  align-items: center;
   justify-content: center;
+}
+.project-status {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d85a30;
+}
+[data-theme="dark"] .project-status { color: #ff6b4a; }
+.project-tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d85a30;
+}
+[data-theme="dark"] .project-tag { color: #ff6b4a; }
+.project-tag-sep {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  margin: 0 8px;
+  opacity: 0.3;
 }
 
 .project-content {

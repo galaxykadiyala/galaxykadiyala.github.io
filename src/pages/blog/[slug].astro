@@ -21,7 +21,7 @@ const { Content } = await post.render();
 
       <header class="post-header">
         <div class="post-meta">
-          <span class="tag coral">{post.data.category || 'Blog'}</span>
+          <span class="blog-category">{post.data.category || 'Blog'}</span>
           <time class="post-date">
             {post.data.date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
           </time>
@@ -96,31 +96,33 @@ const { Content } = await post.render();
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 4px 14px;
   margin-top: 1.25rem;
 }
 
 .post-tag {
   font-family: var(--mono);
-  font-size: 0.72rem;
-  padding: 0.25em 0.7em;
-  border-radius: 999px;
-  background: rgba(216, 90, 48, 0.12);
-  border: 1px solid rgba(216, 90, 48, 0.4);
+  font-size: 12px;
+  letter-spacing: 0.03em;
   color: #d85a30;
+  background: none;
+  border: none;
+  padding: 0;
   text-decoration: none;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  opacity: 0.8;
+  transition: opacity 0.15s;
 }
-.post-tag:hover {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+.post-tag:hover { opacity: 1; }
+[data-theme="dark"] .post-tag { color: #ff6b4a; }
+
+.blog-category {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d85a30;
 }
-[data-theme="dark"] .post-tag {
-  background: rgba(255, 107, 74, 0.15);
-  border-color: rgba(255, 107, 74, 0.4);
-  color: #ff6b4a;
-}
+[data-theme="dark"] .blog-category { color: #ff6b4a; }
 
 .post-content {
   max-width: 720px;

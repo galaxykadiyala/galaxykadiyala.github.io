@@ -23,12 +23,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="resume-section-label">Summary</div>
           <div class="resume-section-content">
             <p>
-              Technical Program Manager with 15+ years of experience delivering large-scale cloud, data infrastructure,
-              and platform engineering programs across globally distributed teams. Proven track record driving execution
-              across Kubernetes-native storage, hyperconverged infrastructure, CI/CD modernization, and large cross-functional
-              initiatives. Deputed via Aziro Technologies to Pure Storage and Rubrik — leading AWS migration delivery at
-              Pure Storage and driving UI test release execution at Rubrik. Focused on predictability, release readiness,
-              execution visibility, and engineering efficiency.
+              Technical Program Manager with 15+ years delivering platform and infrastructure programs across globally
+              distributed teams. Currently deputed via Aziro to Rubrik, owning UI release readiness as the final release
+              gate. Previously delivered a 10-month test automation and release qualification program at Everpure (Portworx).
+              6+ years at Nutanix as Engineering Manager and Senior MTS. Co-inventor on two US patents in distributed
+              systems. Strong in release governance, dependency management, and execution visibility at scale.
             </p>
           </div>
         </div>
@@ -42,17 +41,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div class="resume-item-header">
                 <div>
                   <h3 class="resume-item-title">Technical Program Manager</h3>
-                  <span class="resume-item-org">Aziro Technologies (deputed to Pure Storage & Rubrik)</span>
+                  <span class="resume-item-org">Aziro Technologies · Bengaluru</span>
                 </div>
                 <span class="tag coral">Oct 2024 – Present</span>
               </div>
+              <p style="font-size: 0.88rem; opacity: 0.6; font-family: var(--mono); margin-bottom: 1.2rem; line-height: 1.5;">Deputed to client engagements; currently embedded at Rubrik after delivering a 10-month engagement at Everpure (Portworx).</p>
+              <p style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; opacity: 0.85;">At Rubrik — UI Release Readiness (Current)</p>
+              <ul class="resume-item-bullets" style="margin-bottom: 1.2rem;">
+                <li>Own UI release readiness as the final release gate for weekly UI releases and additional product-specific release trains across the week.</li>
+                <li>Coordinate two QA teams (manual and automation), driving blocker-bug clearance, bug verification, and release sign-off.</li>
+                <li>Manage risks and dependencies across feature, QA, and engineering teams to keep release commitments on track.</li>
+                <li>Deliver weekly leadership updates and prepare quality dashboards and release reports for executive reviews.</li>
+              </ul>
+              <p style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; opacity: 0.85;">At Everpure (Portworx) — Test Automation &amp; Release Qualification Program (10 months, completed)</p>
               <ul class="resume-item-bullets">
-                <li>Leading end-to-end migration of core platform services from on-prem to AWS, coordinating 7 engineering streams and 30+ globally distributed engineers.</li>
-                <li>Defined program milestones, governance model, and dependency sequencing enabling phased migration without service disruption.</li>
-                <li>Introduced phased CI/CD rollout improving deployment reliability and reducing release cycle time from 7 days to 24 hours.</li>
-                <li>Built integrated dashboards using Jira, Jenkins, and AWS CloudWatch for real-time visibility into migration progress.</li>
-                <li>Improved operational efficiency through automated monitoring workflows, saving 200+ engineering hours quarterly.</li>
-                <li>Driving UI release readiness for Rubrik platform teams — coordinating test execution, managing risks, and preparing leadership-facing release updates.</li>
+                <li>Led a 10-month program to automate Portworx's release qualification backlog, coordinating 7 engineering teams (2 UI, 5 backend) across globally distributed locations.</li>
+                <li>Owned program execution end-to-end: project initialization, scoping, sprint planning, team assignments, weekly executive reviews, retrospectives, and cross-team dependency management via Jira and Confluence.</li>
+                <li>Drove automation of 1,500 UI, functional, and system test cases across multiple Portworx products (UI in Cypress/TypeScript, backend in Go).</li>
+                <li>Built and rolled out a CI/CD pipeline to run the automated suite, reducing release qualification cycle from 1–2 weeks (manual) to 1–2 days.</li>
+                <li>Ran training sessions, tracked bugs and issues, and unblocked cross-team risks to keep program velocity on track.</li>
               </ul>
             </div>
 
@@ -65,9 +72,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <span class="tag coral">Mar 2024 – Sep 2024</span>
               </div>
               <ul class="resume-item-bullets">
-                <li>Designed and led development of a unified pay-per-use digital wallet using the Interledger protocol.</li>
-                <li>Created MVP system architecture, dynamic pricing models, and onboarding workflows.</li>
-                <li>Scoped program budget ($60K–$85K) and validated early prototype flows with test customer groups.</li>
+                <li>Explored a pay-per-use digital wallet concept using the Interledger protocol.</li>
+                <li>Built MVP architecture, dynamic pricing models, and onboarding workflows; validated prototype with a small test group.</li>
+                <li>The project did not progress to launch; returned to TPM work in October 2024.</li>
               </ul>
             </div>
 
@@ -100,6 +107,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <li>Led QA strategy for Lifecycle Management and Disaster Recovery components across AHV (KVM) and ESXi.</li>
                 <li>Validated DR workflows including snapshot integrity, replication, and failover.</li>
                 <li>Built nested cluster model reducing build cycle time from 4 hours to 30 minutes.</li>
+                <li>Co-invented two US-patented systems (HA File Servers, Snapshot Integrity) now shipping in Nutanix products.</li>
               </ul>
             </div>
 
@@ -114,6 +122,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <ul class="resume-item-bullets">
                 <li>Managed QA for Nutanix and Cisco product lines, focusing on automation, reliability, and network protocol testing.</li>
                 <li>Led test strategy and execution for system and regression testing across enterprise networking products.</li>
+                <li>Mentored engineers across multiple test pods over a 6-year tenure, scaling team practices and tooling.</li>
               </ul>
             </div>
 
@@ -125,19 +134,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="resume-section-label">Skills</div>
           <div class="resume-section-content">
             <div class="skills-grid">
-              {[
-                { group: 'Program Management', skills: ['Roadmapping', 'Stakeholder Management', 'Release Planning', 'Dependency Mapping', 'Program Governance', 'Metrics & Dashboards', 'OKRs Alignment'] },
-                { group: 'Tools & Platforms', skills: ['Jira', 'Confluence', 'Git / GitHub', 'Jenkins', 'CI/CD Pipelines', 'Postman', 'Selenium', 'TestNG'] },
-                { group: 'Cloud & Infrastructure', skills: ['Kubernetes', 'AWS', 'Linux', 'Grafana', 'Microservices Architecture', 'Hyperconverged Infrastructure'] },
-                { group: 'Technical & AI', skills: ['Python', 'Bash', 'API Debugging', 'Software Testing', 'ChatGPT / Claude / Copilot', 'Notion AI'] },
-              ].map(group => (
-                <div class="skill-group">
-                  <h4 class="skill-group-title">{group.group}</h4>
-                  <ul class="skill-list">
-                    {group.skills.map(s => <li class="tag coral">{s}</li>)}
-                  </ul>
-                </div>
-              ))}
+              <div class="skill-group">
+                <h4 class="skill-group-title">Program Management</h4>
+                <ul class="skill-list">
+                  <li>Roadmapping</li>
+                  <li>Release planning</li>
+                  <li>Dependency mapping</li>
+                  <li>Program governance</li>
+                  <li>Metrics &amp; dashboards</li>
+                  <li>OKRs alignment</li>
+                  <li>Stakeholder management</li>
+                </ul>
+              </div>
+              <div class="skill-group">
+                <h4 class="skill-group-title">Tools &amp; Platforms</h4>
+                <ul class="skill-list">
+                  <li>Jira · Confluence</li>
+                  <li>Git / GitHub</li>
+                  <li>Jenkins · CI/CD pipelines</li>
+                  <li>Selenium</li>
+                </ul>
+              </div>
+              <div class="skill-group">
+                <h4 class="skill-group-title">Cloud &amp; Infrastructure</h4>
+                <ul class="skill-list">
+                  <li>Kubernetes · AWS · Linux</li>
+                  <li>Microservices architecture</li>
+                  <li>Hyperconverged infrastructure</li>
+                </ul>
+              </div>
+              <div class="skill-group">
+                <h4 class="skill-group-title">Technical &amp; AI</h4>
+                <ul class="skill-list">
+                  <li>Python · Bash</li>
+                  <li>API debugging</li>
+                  <li>Test automation</li>
+                  <li>Claude Code · AI workflows</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -225,7 +259,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div class="resume-item">
               <div class="resume-item-header">
                 <div>
-                  <h3 class="resume-item-title">Community Liaison</h3>
+                  <h3 class="resume-item-title">Volunteer</h3>
                   <span class="resume-item-org">Mozilla Foundation</span>
                 </div>
                 <span class="tag coral">Jun 2010 – Present</span>
@@ -369,20 +403,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 }
 
 .skill-group-title {
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
-  opacity: 0.85;
   color: var(--ink);
+  opacity: 0.5;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.15);
 }
 
 .skill-list {
   list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  flex-direction: column;
+  gap: 0;
+}
+.skill-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink);
+  opacity: 0.72;
+  line-height: 1.5;
+  padding: 2px 0;
+}
+.skill-list li::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #d85a30;
+  flex-shrink: 0;
+  margin-top: 6px;
 }
 
 .community-list { display: flex; flex-direction: column; }
