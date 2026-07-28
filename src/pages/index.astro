@@ -10,11 +10,12 @@ const featuredProjects = (await getCollection('projects'))
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 
 function fmtDate(d: Date) {
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function truncate(s: string, max: number) {
-  return s.length > max ? s.slice(0, max).trimEnd() + '…' : s;
+  const currentYear = new Date().getFullYear();
+  const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+  if (d.getFullYear() !== currentYear) {
+    opts.year = 'numeric';
+  }
+  return d.toLocaleDateString('en-US', opts);
 }
 ---
 
@@ -29,7 +30,7 @@ function truncate(s: string, max: number) {
       <h1>Systems &gt; effort.<br/>I build leverage.</h1>
       <p class="lead">15+ years across Nutanix, Pure Storage, and Rubrik. 2 US patents in distributed systems. AI is a tool. Systems do the work.</p>
       <div class="hero-cta">
-        <a href="/projects" class="btn">Selected Work</a>
+        <a href="/projects" class="btn">Projects</a>
         <a href="/blog" class="btn outline">Writing</a>
       </div>
     </section>
@@ -45,7 +46,12 @@ function truncate(s: string, max: number) {
               <span class="compact-num">{String(i + 1).padStart(2, '0')}</span>
               <div class="compact-body">
                 <a href={`/projects/${project.slug}`} class="compact-title">{project.data.title}</a>
-                <p class="compact-desc">{truncate(project.data.summary, 80)}</p>
+                <p class="compact-desc">{project.data.summary}</p>
+                {project.data.externalUrl && (
+                  <a href={project.data.externalUrl} class="compact-external" target="_blank" rel="noopener noreferrer">
+                    Visit ↗
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -228,6 +234,20 @@ function truncate(s: string, max: number) {
   text-overflow: ellipsis;
 }
 
+.compact-external {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  opacity: 0.45;
+  margin-top: 0.35rem;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.compact-external:hover {
+  opacity: 1;
+}
+
 /* Writing rows: no number column, date + title inline */
 .compact-item-link {
   grid-template-columns: 3.25rem 1fr;
@@ -249,6 +269,10 @@ function truncate(s: string, max: number) {
 
 .compact-item-link .compact-title {
   font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ── Utility ──────────────────────────────────── */
