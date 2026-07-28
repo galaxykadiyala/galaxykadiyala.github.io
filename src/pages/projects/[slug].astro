@@ -12,12 +12,6 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
-
-const categoryLabel: Record<string, string> = {
-  professional: 'Professional',
-  personal:     'Personal',
-  community:    'Community',
-};
 ---
 
 <BaseLayout title={project.data.title} description={project.data.summary}>
@@ -27,7 +21,6 @@ const categoryLabel: Record<string, string> = {
       <header class="project-header">
         <div class="project-meta">
           <span class="project-status">{project.data.status}</span>
-          <span class="tag">{categoryLabel[project.data.category]}</span>
           <time class="project-year">{project.data.year}</time>
         </div>
         <h1 class="project-title">{project.data.title}</h1>
@@ -50,7 +43,7 @@ const categoryLabel: Record<string, string> = {
         <Content />
       </div>
 
-      {(project.data.blogPostSlug || project.data.externalUrl) && (
+      {(project.data.blogPostSlug || project.data.externalUrl || project.data.repoUrl) && (
         <div class="project-actions">
           {project.data.blogPostSlug && (
             <a href={`/blog/${project.data.blogPostSlug}`} class="btn">
@@ -60,6 +53,11 @@ const categoryLabel: Record<string, string> = {
           {project.data.externalUrl && (
             <a href={project.data.externalUrl} target="_blank" rel="noopener" class="btn outline">
               Visit the live site ↗
+            </a>
+          )}
+          {project.data.repoUrl && (
+            <a href={project.data.repoUrl} target="_blank" rel="noopener" class="btn outline">
+              View source ↗
             </a>
           )}
         </div>
@@ -176,6 +174,11 @@ const categoryLabel: Record<string, string> = {
   background: var(--paper-2);
   padding: 0.2em 0.4em;
   border-radius: 3px;
+}
+.project-content :global(img) {
+  border-radius: 8px;
+  margin: 2rem auto;
+  border: 2px solid var(--ink);
 }
 .project-content :global(hr) {
   border: none;

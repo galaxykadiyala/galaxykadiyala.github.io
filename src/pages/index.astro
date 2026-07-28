@@ -47,11 +47,18 @@ function fmtDate(d: Date) {
               <div class="compact-body">
                 <a href={`/projects/${project.slug}`} class="compact-title">{project.data.title}</a>
                 <p class="compact-desc">{project.data.summary}</p>
-                {project.data.externalUrl && (
-                  <a href={project.data.externalUrl} class="compact-external" target="_blank" rel="noopener noreferrer">
-                    Visit ↗
-                  </a>
-                )}
+                <div class="compact-links">
+                  {project.data.externalUrl && (
+                    <a href={project.data.externalUrl} class="compact-external" target="_blank" rel="noopener noreferrer">
+                      Live ↗
+                    </a>
+                  )}
+                  {project.data.repoUrl && (
+                    <a href={project.data.repoUrl} class="compact-external" target="_blank" rel="noopener noreferrer">
+                      Code ↗
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -65,7 +72,10 @@ function fmtDate(d: Date) {
           {posts.map(post => (
             <a href={`/blog/${post.slug}`} class="compact-item compact-item-link">
               <span class="compact-date">{fmtDate(post.data.date)}</span>
-              <span class="compact-title">{post.data.title}</span>
+              <div class="compact-body">
+                <span class="compact-title">{post.data.title}</span>
+                <p class="compact-desc">{post.data.description}</p>
+              </div>
             </a>
           ))}
         </div>
@@ -234,12 +244,17 @@ function fmtDate(d: Date) {
   text-overflow: ellipsis;
 }
 
+.compact-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
 .compact-external {
   display: inline-block;
   font-family: var(--mono);
   font-size: 0.72rem;
   opacity: 0.45;
-  margin-top: 0.35rem;
   text-decoration: none;
   transition: opacity 0.15s;
 }
@@ -251,9 +266,13 @@ function fmtDate(d: Date) {
 /* Writing rows: no number column, date + title inline */
 .compact-item-link {
   grid-template-columns: 3.25rem 1fr;
-  align-items: baseline;
+  align-items: start;
   text-decoration: none;
   transition: opacity 0.15s;
+}
+
+.compact-item-link .compact-date {
+  margin-top: 0.15rem;
 }
 
 .compact-item-link:hover {

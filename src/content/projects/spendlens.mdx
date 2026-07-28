@@ -5,10 +5,44 @@ year: "2025"
 status: active
 category: personal
 techStack: [Privacy-first, Local-first, Data Analysis]
-externalUrl: "https://github.com/galaxykadiyala/spendlens"
+repoUrl: "https://github.com/galaxykadiyala/spendlens"
 order: 3
 ---
 
-A privacy-first credit card statement analyzer built for Indian banks. Drop your statements in and get a local dashboard of your spending patterns. Everything runs on your machine — no uploads, no cloud, no tracking. Built because every existing tool wanted my financial data on their servers.
+![SpendLens overview dashboard](/images/projects/spendlens/overview.png)
 
-[View on GitHub →](https://github.com/galaxykadiyala/spendlens)
+## The problem
+
+Every existing personal finance tool for Indian credit cards wants your
+bank statements uploaded to their servers. That's a non-starter for
+anything touching real financial data — the convenience isn't worth the
+exposure. On top of that, no platform gives a holistic view across cards:
+each bank only analyzes its own statements, and even CRED — which comes
+closest — still divides everything by card, with too much to sift through
+to see one clear picture of total spend.
+
+## The approach
+
+Built a fully local-first analyzer: drop in your bank statement PDFs or
+CSVs from any card, get one unified local dashboard. Parsing, storage, and
+analysis all run client-side.
+
+## Decisions
+
+- Chose local-only architecture over a hosted SaaS model, trading
+  convenience (no access-anywhere) for zero data exposure — the right
+  tradeoff when the data is financial
+- Built one unified cross-card view instead of a per-card breakdown, since
+  every existing option (bank apps, CRED) silos spending by card and never
+  shows total spend across all of them together
+- Indian bank statement formats aren't standardized across issuers, so
+  parsing had to handle inconsistent layouts rather than a single fixed
+  template
+
+## Outcome
+
+![SpendLens category breakdown](/images/projects/spendlens/categories.png)
+
+A working dashboard tracking 26 months and 8 cards, with category-level
+insights (e.g. surfacing a 258% month-over-month rise in Shopping spend)
+that would take manual spreadsheet work to spot otherwise.

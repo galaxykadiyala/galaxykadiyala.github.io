@@ -22,6 +22,7 @@ const projects = defineCollection({
     category: z.enum(['professional', 'personal', 'community']),
     techStack: z.array(z.string()),
     externalUrl: z.string().optional(),
+    repoUrl: z.string().url().optional(),
     blogPostSlug: z.string().optional(),
     order: z.number().optional(),
   }),

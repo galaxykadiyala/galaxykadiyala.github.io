@@ -6,7 +6,43 @@ status: active
 category: personal
 techStack: ["Health", "Optimisation", "CGM", "Data", "Systems"]
 externalUrl: "https://glucose-playbook.vercel.app/"
+repoUrl: "https://github.com/galaxykadiyala/glucose-playbook"
 order: 2
 ---
 
-A daily decision-making system built on real metabolic data. CGM data, sleep tracking, and movement feed into a feedback loop that informs food, training, and recovery decisions. Treats the body as a system with measurable inputs and outputs rather than a guessing game.
+![Glyco dashboard](/images/projects/glyco/dashboard.png)
+
+## The problem
+
+Every CGM vendor app has its own view, and each is missing something. You
+can't pinpoint a specific moment in the data. The views are cluttered with
+features that aren't needed. None of them personalize anything, and food
+logging is limited to whatever's built in — accurate tracking beyond that
+isn't possible.
+
+## The approach
+
+Built a system combining CGM data with WhatsApp-based food logging (text or
+photo) processed through the Claude API, so any meal can be logged in
+seconds and matched against glucose response. It also works without a CGM
+device — manual glucose readings can stand in when needed, since wearing a
+CGM constantly isn't realistic but a manual check is always available.
+
+## Decisions
+
+- Chose WhatsApp + Claude API for food logging over a custom app UI, since
+  texting a photo of a meal is faster than any manual entry form
+- Built to work with or without continuous CGM data — manual glucose
+  readings as a fallback, since no manual-reading option exists on the
+  market today alongside CGM devices
+- Prioritized personalization and point-in-time correlation (what caused
+  *this* spike) over the broad, generic dashboards vendor apps ship with
+
+## Outcome
+
+![Glyco food intelligence view](/images/projects/glyco/food-intelligence.png)
+
+A working system correlating meals to glucose response with specific,
+actionable findings — like identifying chia seeds as the most effective
+spike-reduction strategy, and refined carbohydrates as the top spike cause
+— that generic CGM vendor apps don't surface.
