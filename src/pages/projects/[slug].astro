@@ -150,7 +150,8 @@ const { Content } = await project.render();
 .project-content :global(h2) { margin: 2.5rem 0 1rem; }
 .project-content :global(h3) { margin: 2rem 0 0.75rem; }
 .project-content :global(p)  { margin-bottom: 1.5rem; }
-.project-content :global(a)  { color: var(--accent-4); text-decoration: underline; }
+.project-content :global(a)  { color: var(--accent-4); text-decoration: underline; transition: color 0.15s; }
+.project-content :global(a:hover) { color: var(--accent); }
 .project-content :global(ul),
 .project-content :global(ol) { margin: 1.5rem 0; padding-left: 1.5rem; }
 .project-content :global(li) {

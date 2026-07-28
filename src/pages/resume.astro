@@ -301,7 +301,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.tagline-link:hover { opacity: 0.75; }
+.tagline-link:hover { color: var(--accent); }
 
 .patent-link {
   text-decoration: none;
@@ -309,9 +309,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 }
 .patent-link strong {
   border-bottom: 1.5px solid var(--accent-4);
-  transition: opacity 0.15s;
+  transition: color 0.15s, border-color 0.15s;
 }
-.patent-link:hover strong { opacity: 0.7; }
+.patent-link:hover strong { color: var(--accent); border-bottom-color: var(--accent); }
 
 .resume-body { display: flex; flex-direction: column; }
 

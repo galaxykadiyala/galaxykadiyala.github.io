@@ -34,7 +34,7 @@ function fmtDate(d: Date) {
     <section class="hero">
       <p class="eyebrow">Technical Program Manager &middot; AI &middot; Systems</p>
       <h1>Systems &gt; effort.<br/><span class="hero-accent">I build leverage.</span></h1>
-      <p class="lead">15+ years across Nutanix, Pure Storage, and Rubrik. 2 US patents in distributed systems. AI is a tool. Systems do the work.</p>
+      <p class="lead">15+ years across Nutanix, Everpure, and Rubrik. 2 US patents in distributed systems. AI is a tool. Systems do the work.</p>
       <div class="hero-cta">
         <a href="/projects" class="btn">Projects</a>
         <a href="/blog" class="btn outline">Writing</a>
@@ -103,6 +103,11 @@ function fmtDate(d: Date) {
               <div class="compact-body">
                 <span class="compact-title">{post.data.title}</span>
                 <p class="compact-desc">{post.data.description}</p>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="compact-links">
+                    <span class="compact-tag">{post.data.tags[0]}</span>
+                  </div>
+                )}
               </div>
             </a>
           ))}
@@ -111,7 +116,10 @@ function fmtDate(d: Date) {
       </div>
     </section>
 
-    <p class="availability">Currently open to full-time TPM roles. Bengaluru-based, open to remote. <a href="/contact">Get in touch →</a></p>
+    <div class="availability">
+      <p>Open to full-time TPM roles. No ticket filed yet — open to remote or relocation.</p>
+      <a href="/contact" class="availability-cta">Get in touch →</a>
+    </div>
 
   </div>
 </BaseLayout>
@@ -168,19 +176,27 @@ function fmtDate(d: Date) {
 .availability {
   padding: 0 0 3.5rem;
   margin-top: 1rem;
+}
+
+.availability p {
   font-family: var(--mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   opacity: 0.45;
 }
 
-.availability a {
-  color: inherit;
+.availability-cta {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
   text-decoration: none;
 }
 
-.availability a:hover {
-  opacity: 1;
+.availability-cta:hover {
+  text-decoration: underline;
 }
 
 /* ── Homepage testimonial ─────────────────────── */
@@ -319,8 +335,18 @@ function fmtDate(d: Date) {
   transition: opacity 0.15s;
 }
 
+.compact-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .compact-external:hover {
   opacity: 1;
+  color: var(--accent);
 }
 
 /* Writing rows: no number column, date + title inline */
@@ -365,6 +391,7 @@ function fmtDate(d: Date) {
 
 .all-link:hover {
   opacity: 1;
+  color: var(--accent);
 }
 
 /* ── Split: stack on tablet/mobile ────────────── */

@@ -122,7 +122,8 @@ const { Content } = await post.render();
 .post-content :global(h2) { margin: 2.5rem 0 1rem; }
 .post-content :global(h3) { margin: 2rem 0 0.75rem; }
 .post-content :global(p) { margin-bottom: 1.5rem; }
-.post-content :global(a) { color: var(--accent-4); text-decoration: underline; }
+.post-content :global(a) { color: var(--accent-4); text-decoration: underline; transition: color 0.15s; }
+.post-content :global(a:hover) { color: var(--accent); }
 .post-content :global(ul), .post-content :global(ol) { margin: 1.5rem 0; padding-left: 1.5rem; }
 .post-content :global(li) { font-family: var(--serif); font-size: 1.1rem; line-height: 1.75; margin-bottom: 0.5rem; }
 .post-content :global(blockquote) {

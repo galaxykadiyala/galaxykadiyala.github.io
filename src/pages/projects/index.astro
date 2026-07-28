@@ -15,6 +15,16 @@ const heroImages: Record<string, string> = {
   'spendlens': '/images/projects/spendlens/overview.png',
   'stock-copilot': '/images/projects/stock-copilot/hero.png',
 };
+
+// Terminal chrome-bar path label — the real app/repo name, not always the
+// same as the content slug (e.g. the learning platform's slug is
+// "ai-built-learning-platform" but the actual project is "smartsprouts").
+const chromePaths: Record<string, string> = {
+  'ai-built-learning-platform': '~/projects/smartsprouts',
+  'glucose-optimization-system': '~/projects/glyco',
+  'spendlens': '~/projects/spendlens',
+  'stock-copilot': '~/projects/stock-copilot',
+};
 ---
 
 <BaseLayout title="Projects" description="Programs Galaxy Kadiyala has shipped, systems built, and communities been part of.">
@@ -33,25 +43,37 @@ const heroImages: Record<string, string> = {
 
       <div class="projects-grid">
         {projects.map((project) => (
-          <a
-            href={`/projects/${project.slug}`}
-            class="project-card"
-          >
-            <div
-              class="project-card-image"
-              style={`background-image: url(${heroImages[project.slug]})`}
-            ></div>
-            <span class="project-badge">{project.data.status}</span>
-            <div class="project-card-content">
+          <a href={`/projects/${project.slug}`} class="project-card">
+            <div class="chrome-bar">
+              <span class="dot dot-active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="chrome-path">{chromePaths[project.slug]}</span>
+            </div>
+            <div class="screenshot-window">
+              <img
+                class="project-screenshot"
+                src={heroImages[project.slug]}
+                alt={`${project.data.title} screenshot`}
+                loading="lazy"
+              />
+              <span class="status-badge">{project.data.status}</span>
+            </div>
+            <div class="card-body">
               <p class="project-year">{project.data.year}</p>
-              <p class="project-title">{project.data.title}</p>
+              <h3 class="project-title">{project.data.title}</h3>
               <p class="project-desc">{project.data.summary}</p>
               {project.data.techStack && (
-                <div class="project-tags">
-                  {project.data.techStack.slice(0, 2).map((tag) => (
-                    <span class="project-tag">{tag}</span>
+                <p class="project-tags">
+                  {project.data.techStack.slice(0, 2).map((tag, i) => (
+                    <>
+                      <span class="project-tag">{tag}</span>
+                      {i < Math.min(project.data.techStack.length, 2) - 1 && (
+                        <span class="project-tag-sep">/</span>
+                      )}
+                    </>
                   ))}
-                </div>
+                </p>
               )}
             </div>
           </a>
@@ -85,106 +107,119 @@ const heroImages: Record<string, string> = {
 }
 .page-header p a:hover {
   opacity: 1;
+  color: var(--accent);
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
   gap: 24px;
 }
 
-/* Lone trailing card (e.g. the 4th project in a 3-wide row) spans full
-   width and centers instead of sitting alone on the left. This container
-   caps at 1100px, so auto-fill never resolves past 3 columns — the 3n
-   formula holds at every width wide enough to reach 3 columns at all. */
-@media (min-width: 860px) {
-  .projects-grid > *:last-child:nth-child(3n + 1) {
-    grid-column: 1 / -1;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-}
-
 .project-card {
-  position: relative;
-  display: block;
-  height: 320px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
+  background: var(--paper-2);
   text-decoration: none;
-  color: white;
-  transition: transform 0.15s, box-shadow 0.15s;
+  color: var(--ink);
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 }
 .project-card:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 6px 6px 0 var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--accent);
 }
 
-/* Image lives in its own layer so the grayscale filter doesn't wash out
-   the badge/title/text stacked on top of it. */
-.project-card-image {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center top;
+/* ── Terminal chrome bar ──────────────────────── */
+.chrome-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  display: inline-block;
+  margin-right: 4px;
+}
+.dot-active {
+  background: var(--accent);
+}
+
+.chrome-path {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  margin-left: 8px;
+}
+
+/* ── Screenshot window ────────────────────────── */
+.screenshot-window {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.project-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
   filter: grayscale(1) contrast(1.05);
 }
 
-/* Coral-tinted duotone wash — keeps every card's screenshot in the same
-   color mood regardless of its original palette, and darkens toward the
-   bottom so the title/description/tags stay legible. */
-.project-card::before {
+/* Coral-tinted duotone wash — keeps every screenshot in the same color
+   mood regardless of its original palette. */
+.screenshot-window::after {
   content: '';
   position: absolute;
   inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(229, 57, 53, 0.08) 0%,
+    rgba(20, 15, 12, 0.35) 100%
+  );
+}
+[data-theme="dark"] .screenshot-window::after {
+  background: linear-gradient(
+    180deg,
+    rgba(236, 107, 104, 0.1) 0%,
+    rgba(20, 15, 12, 0.35) 100%
+  );
+}
+
+.status-badge {
+  position: absolute;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(229, 57, 53, 0.10) 0%,
-    rgba(20, 15, 12, 0.55) 55%,
-    rgba(20, 15, 12, 0.88) 100%
-  );
-}
-[data-theme="dark"] .project-card::before {
-  background: linear-gradient(
-    180deg,
-    rgba(236, 107, 104, 0.12) 0%,
-    rgba(20, 15, 12, 0.55) 55%,
-    rgba(20, 15, 12, 0.88) 100%
-  );
-}
-
-.project-badge {
-  position: absolute;
-  top: 12px;
+  bottom: 8px;
   right: 12px;
-  z-index: 2;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.15);
-  color: white;
-  backdrop-filter: blur(4px);
+  letter-spacing: 0.06em;
+  color: var(--accent);
 }
 
-.project-card-content {
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: 0;
-  right: 0;
+/* ── Card body ────────────────────────────────── */
+.card-body {
   padding: 20px;
 }
 
 .project-year {
   font-family: var(--mono);
   font-size: 0.72rem;
-  opacity: 0.7;
+  color: var(--fg-2);
   margin-bottom: 4px;
 }
 
@@ -197,7 +232,7 @@ const heroImages: Record<string, string> = {
 .project-desc {
   font-size: 0.85rem;
   line-height: 1.4;
-  opacity: 0.85;
+  color: var(--fg-2);
   margin-bottom: 10px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -206,20 +241,26 @@ const heroImages: Record<string, string> = {
 }
 
 .project-tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
 }
 
 .project-tag {
-  font-family: var(--mono);
-  font-size: 0.65rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.3);
-  color: rgba(255,255,255,0.9);
+  color: var(--accent);
+}
+
+.project-tag-sep {
+  color: var(--ink);
+  margin: 0 8px;
+  opacity: 0.3;
+}
+
+@media (max-width: 720px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
