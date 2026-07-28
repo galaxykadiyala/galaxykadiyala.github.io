@@ -20,7 +20,7 @@ const categoryLabel: Record<string, string> = {
       <div class="page-header">
         <div class="page-header-text">
           <h1>Projects</h1>
-          <p>Programs I've shipped, systems I've built, and communities I've been part of.</p>
+          <p>Things I've built. Professional case studies live in <a href="/blog">Writing</a>.</p>
         </div>
         <a href="https://github.com/galaxykadiyala" target="_blank" rel="noopener" class="btn outline">
           GitHub →
@@ -94,6 +94,14 @@ const categoryLabel: Record<string, string> = {
   font-family: var(--mono);
   font-size: 0.85rem;
   opacity: 0.5;
+}
+.page-header p a {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  opacity: 0.8;
+}
+.page-header p a:hover {
+  opacity: 1;
 }
 
 .projects-grid {
