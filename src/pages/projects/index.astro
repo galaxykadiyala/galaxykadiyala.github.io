@@ -36,8 +36,11 @@ const heroImages: Record<string, string> = {
           <a
             href={`/projects/${project.slug}`}
             class="project-card"
-            style={`background-image: url(${heroImages[project.slug]})`}
           >
+            <div
+              class="project-card-image"
+              style={`background-image: url(${heroImages[project.slug]})`}
+            ></div>
             <span class="project-badge">{project.data.status}</span>
             <div class="project-card-content">
               <p class="project-year">{project.data.year}</p>
@@ -109,8 +112,6 @@ const heroImages: Record<string, string> = {
   height: 320px;
   border-radius: 12px;
   overflow: hidden;
-  background-size: cover;
-  background-position: center top;
   text-decoration: none;
   color: white;
   transition: transform 0.15s, box-shadow 0.15s;
@@ -120,15 +121,38 @@ const heroImages: Record<string, string> = {
   box-shadow: 6px 6px 0 var(--ink);
 }
 
+/* Image lives in its own layer so the grayscale filter doesn't wash out
+   the badge/title/text stacked on top of it. */
+.project-card-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center top;
+  filter: grayscale(1) contrast(1.05);
+}
+
+/* Coral-tinted duotone wash — keeps every card's screenshot in the same
+   color mood regardless of its original palette, and darkens toward the
+   bottom so the title/description/tags stay legible. */
 .project-card::before {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(
-    0deg,
-    rgba(0,0,0,0.88) 0%,
-    rgba(0,0,0,0.4) 45%,
-    rgba(0,0,0,0.05) 70%
+    180deg,
+    rgba(229, 57, 53, 0.10) 0%,
+    rgba(20, 15, 12, 0.55) 55%,
+    rgba(20, 15, 12, 0.88) 100%
+  );
+}
+[data-theme="dark"] .project-card::before {
+  background: linear-gradient(
+    180deg,
+    rgba(236, 107, 104, 0.12) 0%,
+    rgba(20, 15, 12, 0.55) 55%,
+    rgba(20, 15, 12, 0.88) 100%
   );
 }
 

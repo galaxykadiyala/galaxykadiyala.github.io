@@ -5,6 +5,15 @@ import { getCollection } from 'astro:content';
 const publishedPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+// The archive ends in 2015 and the professional/TPM writing starts in 2026 —
+// an 11-year gap in the actual content, so a fixed cutoff here won't need
+// revisiting as new posts land in future years the way a "current year"
+// check would.
+const ARCHIVE_CUTOFF_YEAR = 2016;
+const recentPosts = publishedPosts.filter(p => p.data.date.getFullYear() >= ARCHIVE_CUTOFF_YEAR);
+const archivePosts = publishedPosts.filter(p => p.data.date.getFullYear() < ARCHIVE_CUTOFF_YEAR);
+
 const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
   day: '2-digit',
   month: 'short',
@@ -13,25 +22,24 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
 
 ---
 
-<BaseLayout title="Blog" description="All posts by Galaxy Kadiyala">
+<BaseLayout title="Writing" description="All posts by Galaxy Kadiyala">
   <section class="section">
     <div class="container">
 
       <div class="page-header">
-        <h1>The Blog</h1>
-        <p>{publishedPosts.length} posts since 2010 on program management, systems thinking, QA, 
+        <h1>Writing</h1>
+        <p>{publishedPosts.length} posts since 2010 on program management, systems thinking, QA,
 and a long history of open-web community work.</p>
         <a href="/blog/tags" class="topics-link">Browse by topic →</a>
       </div>
 
       <div class="blog-list">
-        {publishedPosts.map((post, i) => (
+        {recentPosts.map((post) => (
           <div class="blog-row">
             <div class="blog-row-meta">
               <time class="blog-row-date">
                 {blogDateFormatter.format(post.data.date)}
               </time>
-              <span class="blog-category">{post.data.category || 'Blog'}</span>
             </div>
             <div class="blog-row-content">
               <h2 class="blog-row-title">
@@ -49,6 +57,20 @@ and a long history of open-web community work.</p>
             <span class="blog-row-arrow">→</span>
           </div>
         ))}
+      </div>
+
+      <div class="archive-section">
+        <h2 class="archive-heading">The Mozilla Years (2010–2015)</h2>
+        <p class="archive-desc">Fifteen years of open-web community work — student ambassador programs, meetups, and the early days of Mozilla Reps in India.</p>
+
+        <div class="archive-list">
+          {archivePosts.map((post) => (
+            <a href={`/blog/${post.slug}`} class="archive-item">
+              <time class="archive-date">{blogDateFormatter.format(post.data.date)}</time>
+              <span class="archive-title">{post.data.title}</span>
+            </a>
+          ))}
+        </div>
       </div>
 
     </div>
@@ -129,7 +151,7 @@ and a long history of open-web community work.</p>
   inset: 0;
   border-radius: 4px;
 }
-.blog-row:hover .blog-row-link { color: var(--accent-1); }
+.blog-row:hover .blog-row-link { color: var(--accent); }
 
 .blog-row-desc {
   font-size: 0.92rem;
@@ -150,7 +172,7 @@ and a long history of open-web community work.</p>
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.03em;
-  color: #d85a30;
+  color: var(--accent);
   background: none;
   border: none;
   padding: 0;
@@ -159,16 +181,6 @@ and a long history of open-web community work.</p>
   transition: opacity 0.15s;
 }
 .blog-row-tag:hover { opacity: 1; }
-[data-theme="dark"] .blog-row-tag { color: #ff6b4a; }
-
-.blog-category {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #d85a30;
-}
-[data-theme="dark"] .blog-category { color: #ff6b4a; }
 
 .blog-row-arrow {
   font-family: var(--sans);
@@ -178,6 +190,69 @@ and a long history of open-web community work.</p>
   transition: all 0.15s;
 }
 .blog-row:hover .blog-row-arrow { opacity: 1; transform: translateX(4px); }
+
+/* ── Archive section ─────────────────────────────── */
+.archive-section {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 2px solid var(--ink);
+}
+
+.archive-heading {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.archive-desc {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  opacity: 0.6;
+  max-width: 62ch;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.archive-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.archive-item {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1.5rem;
+  padding: 0.65rem 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.15s, opacity 0.15s;
+}
+.archive-item:hover {
+  background: var(--paper-2);
+}
+.archive-item:hover .archive-title {
+  color: var(--accent);
+}
+
+.archive-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  opacity: 0.4;
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+
+.archive-title {
+  font-size: 0.95rem;
+  transition: color 0.15s;
+}
+
+@media (max-width: 640px) {
+  .archive-item {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
 
 @media (max-width: 640px) {
   .blog-row {

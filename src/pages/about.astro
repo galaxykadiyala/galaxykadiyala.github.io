@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import WorldMap from '../components/WorldMap.astro';
+import { testimonials } from '../data/testimonials';
+
+const professionalTestimonials = testimonials.filter(t => t.group === 'professional');
+const communityTestimonials = testimonials.filter(t => t.group === 'community');
 ---
 
 <BaseLayout title="About" description="Galaxy Kadiyala — Technical Program Manager focused on systems, execution, and leverage. 15+ years across cloud, infrastructure, and platform engineering.">
@@ -17,13 +21,6 @@ import WorldMap from '../components/WorldMap.astro';
             <em>Open web</em> believer.
           </h1>
           <p class="about-tagline">Most work fails at execution. I fix that.</p>
-          <div class="about-accent-block">
-            <span class="tag coral">Technical Program Manager</span>
-            <span class="tag coral">Systems Thinking</span>
-            <span class="tag coral">AI &amp; Infra</span>
-            <span class="tag coral">2&times; US Patents</span>
-            <span class="tag coral">Mozilla</span>
-          </div>
         </div>
 
         <!-- Right: bio -->
@@ -58,6 +55,38 @@ import WorldMap from '../components/WorldMap.astro';
     </div>
   </section>
 
+  <section class="testimonials-section">
+    <div class="container">
+      <p class="testimonials-eyebrow">What colleagues say</p>
+
+      <div class="testimonials-group">
+        <p class="testimonials-group-label">Professional</p>
+        <div class="testimonials-grid">
+          {professionalTestimonials.map(t => (
+            <div class="testimonial">
+              <p class="testimonial-quote">"{t.quote}"</p>
+              <p class="testimonial-name">{t.name}</p>
+              <p class="testimonial-role">{t.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="testimonials-group">
+        <p class="testimonials-group-label">Community</p>
+        <div class="testimonials-grid testimonials-grid--community">
+          {communityTestimonials.map(t => (
+            <div class="testimonial">
+              <p class="testimonial-quote">"{t.quote}"</p>
+              <p class="testimonial-name">{t.name}</p>
+              <p class="testimonial-role">{t.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="metrics-section">
     <div class="container">
       <p class="metrics-eyebrow">By the numbers</p>
@@ -77,6 +106,40 @@ import WorldMap from '../components/WorldMap.astro';
         <div class="metric-tile">
           <p class="metric-number">7d → 24h</p>
           <p class="metric-label">release cycle compression on production CI/CD</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="career-timeline">
+    <div class="container">
+      <p class="section-label">Where I've built</p>
+      <div class="timeline">
+        <div class="timeline-node">
+          <div class="timeline-dot"></div>
+          <p class="timeline-years">2011–2017</p>
+          <p class="timeline-company">Terralogic</p>
+          <p class="timeline-role">Technical Lead</p>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-dot"></div>
+          <p class="timeline-years">2017–2024</p>
+          <p class="timeline-company">Nutanix</p>
+          <p class="timeline-role">Senior MTS → Engineering Manager</p>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-dot"></div>
+          <p class="timeline-years">2024–2025</p>
+          <p class="timeline-company">Everpure</p>
+          <p class="timeline-subtitle">via Aziro</p>
+          <p class="timeline-role">Technical Program Manager</p>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-dot"></div>
+          <p class="timeline-years">2025–present</p>
+          <p class="timeline-company">Rubrik</p>
+          <p class="timeline-subtitle">via Aziro</p>
+          <p class="timeline-role">Technical Program Manager</p>
         </div>
       </div>
     </div>
@@ -109,7 +172,7 @@ import WorldMap from '../components/WorldMap.astro';
   font-family: var(--sans);
   font-style: normal;
   font-weight: 800;
-  color: var(--accent-1);
+  color: var(--accent);
 }
 
 .about-tagline {
@@ -118,12 +181,6 @@ import WorldMap from '../components/WorldMap.astro';
   color: var(--fg-2);
   margin-bottom: 1.75rem;
   letter-spacing: 0.01em;
-}
-
-.about-accent-block {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
 }
 
 .about-bio {
@@ -144,6 +201,81 @@ import WorldMap from '../components/WorldMap.astro';
   gap: 0.75rem;
 }
 
+
+/* ── Testimonials ─────────────────────────────── */
+.testimonials-section {
+  padding: 3rem 0 0;
+}
+
+.testimonials-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--fg-2);
+  margin-bottom: 1.5rem;
+}
+
+.testimonials-group {
+  margin-bottom: 2.5rem;
+}
+.testimonials-group:last-child {
+  margin-bottom: 0;
+}
+
+.testimonials-group-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--fg-2);
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Community group has 3 items — let the 3rd span full width instead of
+   leaving an awkward lopsided gap next to a lone 2-column card. */
+.testimonials-grid--community > :nth-child(3):last-child {
+  grid-column: 1 / -1;
+}
+
+.testimonial {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 20px;
+}
+
+.testimonial-quote {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0 0 14px;
+}
+
+.testimonial-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+}
+
+.testimonial-role {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-2);
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* ── Metrics ──────────────────────────────────── */
 .metrics-section {
@@ -182,7 +314,7 @@ import WorldMap from '../components/WorldMap.astro';
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: #d85a30;
+  color: var(--accent);
 }
 
 .metric-label {
@@ -196,6 +328,106 @@ import WorldMap from '../components/WorldMap.astro';
 @media (max-width: 1024px) {
   .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Career timeline ──────────────────────────── */
+.career-timeline {
+  padding: 2rem 0;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--fg-2);
+  margin-bottom: 1.5rem;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.35;
+}
+
+.timeline-node {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.timeline-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-bottom: 16px;
+}
+
+.timeline-years {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--fg-3);
+  margin: 0 0 4px;
+}
+
+.timeline-company {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.timeline-subtitle {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--fg-3);
+  margin: 0 0 4px;
+  font-style: italic;
+}
+
+.timeline-role {
+  font-size: 0.82rem;
+  color: var(--fg-2);
+  line-height: 1.4;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .timeline {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .timeline::before {
+    top: 0;
+    bottom: 0;
+    left: 4px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  .timeline-node {
+    padding-left: 20px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -4px;
+    top: 4px;
+    margin: 0;
   }
 }
 

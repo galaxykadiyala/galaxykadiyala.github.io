@@ -1,10 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { testimonials } from '../data/testimonials';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 4);
+
+// Server-rendered fallback so there's no flash of empty content and the
+// page works with JS disabled — the inline script below silently swaps
+// this for a random pick from the full list on load.
+const defaultTestimonial = testimonials.find(t => t.name === 'Shreya Shetty') ?? testimonials[0];
 
 const featuredProjects = (await getCollection('projects'))
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
@@ -27,13 +33,35 @@ function fmtDate(d: Date) {
 
     <section class="hero">
       <p class="eyebrow">Technical Program Manager &middot; AI &middot; Systems</p>
-      <h1>Systems &gt; effort.<br/>I build leverage.</h1>
+      <h1>Systems &gt; effort.<br/><span class="hero-accent">I build leverage.</span></h1>
       <p class="lead">15+ years across Nutanix, Pure Storage, and Rubrik. 2 US patents in distributed systems. AI is a tool. Systems do the work.</p>
       <div class="hero-cta">
         <a href="/projects" class="btn">Projects</a>
         <a href="/blog" class="btn outline">Writing</a>
       </div>
     </section>
+
+    <div class="home-testimonial" id="homepage-testimonial" data-testimonials={JSON.stringify(testimonials)}>
+      <p class="testimonial-quote" id="testimonial-quote">"{defaultTestimonial.quote}"</p>
+      <p class="testimonial-name" id="testimonial-name">{defaultTestimonial.name}</p>
+      <p class="testimonial-role" id="testimonial-role">{defaultTestimonial.role}</p>
+    </div>
+
+    <script>
+      const el = document.getElementById('homepage-testimonial');
+      if (el) {
+        const list = JSON.parse(el.dataset.testimonials || '[]');
+        if (list.length > 0) {
+          const pick = list[Math.floor(Math.random() * list.length)];
+          const quoteEl = document.getElementById('testimonial-quote');
+          const nameEl = document.getElementById('testimonial-name');
+          const roleEl = document.getElementById('testimonial-role');
+          if (quoteEl) quoteEl.textContent = `"${pick.quote}"`;
+          if (nameEl) nameEl.textContent = pick.name;
+          if (roleEl) roleEl.textContent = pick.role;
+        }
+      }
+    </script>
 
     <hr class="rule" />
 
@@ -119,6 +147,10 @@ function fmtDate(d: Date) {
   color: var(--ink);
 }
 
+.hero-accent {
+  color: var(--accent);
+}
+
 .lead {
   font-size: 1rem;
   line-height: 1.75;
@@ -149,6 +181,34 @@ function fmtDate(d: Date) {
 
 .availability a:hover {
   opacity: 1;
+}
+
+/* ── Homepage testimonial ─────────────────────── */
+.home-testimonial {
+  margin: 0 0 2.75rem;
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 18px;
+}
+
+.home-testimonial .testimonial-quote {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin: 0 0 10px;
+}
+
+.home-testimonial .testimonial-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+}
+
+.home-testimonial .testimonial-role {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-2);
+  margin-top: 2px;
 }
 
 /* ── Divider ──────────────────────────────────── */
@@ -227,11 +287,11 @@ function fmtDate(d: Date) {
   letter-spacing: -0.01em;
   color: var(--ink);
   text-decoration: none;
-  transition: opacity 0.15s;
+  transition: color 0.15s;
 }
 
 .compact-title:hover {
-  opacity: 0.65;
+  color: var(--accent);
 }
 
 .compact-desc {
@@ -268,15 +328,14 @@ function fmtDate(d: Date) {
   grid-template-columns: 3.25rem 1fr;
   align-items: start;
   text-decoration: none;
-  transition: opacity 0.15s;
 }
 
 .compact-item-link .compact-date {
   margin-top: 0.15rem;
 }
 
-.compact-item-link:hover {
-  opacity: 0.6;
+.compact-item-link:hover .compact-title {
+  color: var(--accent);
 }
 
 .compact-date {

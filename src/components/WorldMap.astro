@@ -106,22 +106,30 @@ const totalRegions = 4;
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
+  // Single source of truth for the coral accent, read live from the CSS
+  // variable so this never drifts from the value defined in global.css.
+  function getAccentColor(): string {
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    return value || '#e53935';
+  }
+
   function getThemeColors() {
+    const accent = getAccentColor();
     return isDarkMode()
       ? {
           mode: 'dark' as const,
           landFill:      '#1a1a1a',
           landStroke:    '#2a2a2a',
-          visitedFill:   '#d85a30',
-          visitedStroke: '#ff6b4a',
+          visitedFill:   accent,
+          visitedStroke: accent,
           hoverFill:     '#ff7a48',
-          glowColor:     '#ff6b4a',
+          glowColor:     accent,
         }
       : {
           mode: 'light' as const,
           landFill:      '#f1eee5',
           landStroke:    '#e0dcd0',
-          visitedFill:   '#d85a30',
+          visitedFill:   accent,
           visitedStroke: '#b8461f',
           hoverFill:     '#b8461f',
           glowColor:     'transparent',
@@ -312,7 +320,7 @@ const totalRegions = 4;
     position: absolute;
     pointer-events: none;
     background: rgba(255, 255, 255, 0.98);
-    border: 0.5px solid #d85a30;
+    border: 0.5px solid var(--accent);
     border-radius: 3px;
     padding: 4px 10px;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -373,7 +381,7 @@ const totalRegions = 4;
   :global([data-theme='dark']) .whereivebeen__tip,
   :global(html.dark) .whereivebeen__tip {
     background: rgba(18, 18, 18, 0.96);
-    border-color: #ff6b4a;
+    border-color: var(--accent);
     color: #f0f0f0;
   }
 

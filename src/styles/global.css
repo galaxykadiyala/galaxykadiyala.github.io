@@ -34,6 +34,12 @@
   --accent-3: #00897b;
   --accent-4: #1e40af;
   --accent-5: #ea580c;
+
+  /* Canonical accent — single source of truth for all accent usage
+     sitewide (nav chevron, headline accents, tags, testimonials, etc).
+     Sourced from the Contact page's "talk." heading (--accent-1), which
+     is the reference the rest of the site now conforms to. */
+  --accent: #e53935;
 }
 
 /* ── Dark mode ────────────────────────────────────── */
@@ -47,6 +53,11 @@
 
   --footer-bg: #0a0c10;
   --footer-fg: #efefef;
+
+  /* No dark-mode variant of --accent-1 existed anywhere in the codebase
+     before this pass — derived by lightening #e53935 toward white ~25%
+     for legibility on dark backgrounds. Flagged for visual confirmation. */
+  --accent: #ec6b68;
 }
 
 /* ── Reset ────────────────────────────────────────── */
@@ -115,15 +126,14 @@ img { max-width: 100%; display: block; }
 }
 
 .tag.coral {
-  background: rgba(216, 90, 48, 0.12);
-  border-color: rgba(216, 90, 48, 0.4);
-  color: #d85a30;
+  background: rgba(229, 57, 53, 0.12);
+  border-color: rgba(229, 57, 53, 0.4);
+  color: var(--accent);
 }
 
 [data-theme="dark"] .tag.coral {
-  background: rgba(255, 107, 74, 0.15);
-  border-color: rgba(255, 107, 74, 0.4);
-  color: #ff6b4a;
+  background: rgba(236, 107, 104, 0.15);
+  border-color: rgba(236, 107, 104, 0.4);
 }
 
 /* ── Button ───────────────────────────────────────── */

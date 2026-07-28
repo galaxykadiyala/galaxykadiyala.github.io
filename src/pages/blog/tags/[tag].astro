@@ -44,7 +44,6 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
               <time class="blog-row-date">
                 {blogDateFormatter.format(post.data.date)}
               </time>
-              <span class="blog-category">{post.data.category || 'Blog'}</span>
             </div>
             <div class="blog-row-content">
               <h2 class="blog-row-title">
@@ -146,7 +145,7 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
   inset: 0;
   border-radius: 4px;
 }
-.blog-row:hover .blog-row-link { color: var(--accent-1); }
+.blog-row:hover .blog-row-link { color: var(--accent); }
 
 .blog-row-desc {
   font-size: 0.92rem;
@@ -167,7 +166,7 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.03em;
-  color: #d85a30;
+  color: var(--accent);
   background: none;
   border: none;
   padding: 0;
@@ -177,16 +176,6 @@ const blogDateFormatter = new Intl.DateTimeFormat('en-US', {
 }
 .blog-row-tag:hover { opacity: 1; }
 .blog-row-tag.active { opacity: 1; font-weight: 600; }
-[data-theme="dark"] .blog-row-tag { color: #ff6b4a; }
-
-.blog-category {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #d85a30;
-}
-[data-theme="dark"] .blog-category { color: #ff6b4a; }
 
 .blog-row-arrow {
   font-family: var(--sans);
